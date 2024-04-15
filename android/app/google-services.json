@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "297322852317",
+    "project_id": "booko-47249",
+    "storage_bucket": "booko-47249.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:297322852317:android:a0ffef350b20f89d811034",
+        "android_client_info": {
+          "package_name": "com.bscs.booko"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwbaXaoJaD3JVjVBNvsvx6lL5NVqNmBAo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
