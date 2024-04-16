@@ -1,6 +1,8 @@
 part of 'startup_bloc.dart';
 
 @immutable
-abstract class StartupEvent {}
+sealed class StartupEvent {}
 
-final class StartupCheckAuth extends StartupEvent {}
+final class NavigateToHome extends StartupEvent {}
+
+final class NavigateToLogin extends StartupEvent {}

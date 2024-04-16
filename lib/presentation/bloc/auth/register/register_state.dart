@@ -1,6 +1,5 @@
 part of 'register_bloc.dart';
 
-@immutable
-abstract class RegisterState {}
+sealed class RegisterState {}
 
 class RegisterInitial extends RegisterState {}

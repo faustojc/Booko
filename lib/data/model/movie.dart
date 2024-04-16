@@ -1,6 +1,7 @@
 import 'package:booko/data/model/base_model.dart';
+import 'package:fast_equatable/fast_equatable.dart';
 
-class Movie extends BaseModel<Movie> {
+class Movie extends BaseModel<Movie> with FastEquatable {
   String? id;
   String? title;
   String? description;
@@ -69,4 +70,23 @@ class Movie extends BaseModel<Movie> {
   fromJson(Map<String, dynamic> json) {
     return Movie.fromJson(json);
   }
+
+  @override
+  bool get cacheHash => true;
+
+  @override
+  List<Object?> get hashParameters => [
+        id,
+        title,
+        description,
+        director,
+        producer,
+        releaseDate,
+        imageUrl,
+        price,
+        genres,
+        schedule,
+        createdAt,
+        updatedAt,
+      ];
 }

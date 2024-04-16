@@ -1,9 +1,10 @@
 part of 'startup_bloc.dart';
 
-
+@immutable
 abstract class StartupState {}
 
 class StartupInitial extends StartupState {}
-class StartupLoading extends StartupState {}
-class StartupAuthenticated extends StartupState {}
-class StartupUnauthenticated extends StartupState {}
+
+class StartupHome extends StartupState {}
+
+class StartupLogin extends StartupState {}

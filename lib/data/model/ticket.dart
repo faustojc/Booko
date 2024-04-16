@@ -1,6 +1,7 @@
 import 'package:booko/data/model/base_model.dart';
+import 'package:fast_equatable/fast_equatable.dart';
 
-class Ticket extends BaseModel<Ticket> {
+class Ticket extends BaseModel<Ticket> with FastEquatable {
   String? id;
   String? customerId;
   String? movieId;
@@ -45,4 +46,10 @@ class Ticket extends BaseModel<Ticket> {
   fromJson(Map<String, dynamic> json) {
     return Ticket.fromJson(json);
   }
+  
+  @override
+  bool get cacheHash => true;
+
+  @override
+  List<Object?> get hashParameters => [id, customerId, movieId, seatId, createdAt, updatedAt];
 }
