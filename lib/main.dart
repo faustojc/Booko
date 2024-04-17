@@ -1,6 +1,5 @@
 import 'package:booko/domain/repository/auth/auth_repo.dart';
 import 'package:booko/presentation/bloc/app/app_bloc.dart';
-import 'package:booko/presentation/bloc/startup/startup_bloc.dart';
 import 'package:booko/presentation/pages/startup/startup_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -16,51 +15,43 @@ Future<void> main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  final authRepo = AuthRepo();
-
-  runApp(App(authRepo: authRepo));
+  runApp(const App());
 }
 
 class App extends StatelessWidget {
-  final AuthRepo authRepo;
-
-  const App({super.key, required this.authRepo});
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-        value: authRepo,
+    return RepositoryProvider<AuthRepo>(
+        create: (_) => AuthRepo(),
         child: MultiBlocProvider(
           providers: [
-            BlocProvider<AppBloc>(create: (context) => AppBloc(authRepo: authRepo)),
-            BlocProvider<StartupBloc>(create: (context) => StartupBloc(appBloc: context.read<AppBloc>())),
+            BlocProvider<AppBloc>(create: (context) {
+              final appBloc = AppBloc(authRepo: RepositoryProvider.of<AuthRepo>(context));
+
+              appBloc.add(AppCheckAuth());
+              return appBloc;
+            }),
           ],
-          child: const AppView(),
+          child: PopScope(
+            canPop: Navigator.canPop(context),
+            onPopInvoked: (didPop) async {
+              if (Navigator.canPop(context)) {
+                Navigator.pop(context);
+              } else {
+                await MoveToBackground.moveTaskToBack();
+              }
+            },
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: 'Booko',
+              theme: ThemeData(
+                primarySwatch: Colors.blue,
+              ),
+              home: const StartupPage(),
+            ),
+          ),
         ));
-  }
-}
-
-class AppView extends StatelessWidget {
-  const AppView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return PopScope(
-      canPop: Navigator.canPop(context),
-      onPopInvoked: (didPop) async {
-        if (Navigator.canPop(context)) {
-          Navigator.pop(context);
-        } else {
-          await MoveToBackground.moveTaskToBack();
-        }
-      },
-      child: MaterialApp(
-        title: 'Booko',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: const StartupPage(),
-      ),
-    );
   }
 }
