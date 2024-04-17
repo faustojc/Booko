@@ -47,7 +47,21 @@ class App extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               title: 'Booko',
               theme: ThemeData(
-                primarySwatch: Colors.blue,
+                colorScheme: ColorScheme.fromSeed(
+                  seedColor: const Color(0xFFF8663D),
+                  primary: const Color(0xFFF8663D),
+                  secondary: const Color(0xFFEA3A4E),
+                  tertiary: const Color(0xFFD71261),
+                  background: const Color(0xFF000000),
+                  surface: const Color(0xFF404042),
+                  outline: const Color(0xFFD1D1D4),
+                ),
+                textTheme: const TextTheme(
+                  displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                  displayMedium: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  displaySmall: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                useMaterial3: true,
               ),
               home: const StartupPage(),
             ),
