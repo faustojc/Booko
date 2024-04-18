@@ -1,7 +1,7 @@
-import 'package:booko/data/model/base_model.dart';
+import 'package:booko/data/model/mixin/query_builder.dart';
 import 'package:fast_equatable/fast_equatable.dart';
 
-class Customer extends BaseModel<Customer> with FastEquatable {
+class Customer with QueryBuilder<Customer>, FastEquatable {
   String? id;
   String? firstname;
   String? lastname;
@@ -20,17 +20,18 @@ class Customer extends BaseModel<Customer> with FastEquatable {
     this.updatedAt,
   });
 
-  Customer.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    firstname = json['firstname'];
-    lastname = json['lastname'];
-    phone = json['phone'];
-    address = json['address'];
-    createdAt = DateTime.parse(json['created_at']);
-    updatedAt = DateTime.parse(json['updated_at']);
+  factory Customer.fromJson(Map<String, dynamic> json) {
+    return Customer(
+      id: json['id'],
+      firstname: json['firstname'],
+      lastname: json['lastname'],
+      phone: json['phone'],
+      address: json['address'],
+      createdAt: DateTime.parse(json['created_at']),
+      updatedAt: DateTime.parse(json['updated_at']),
+    );
   }
-
-  @override
+  
   Map<String, dynamic> toJson() {
     return {
       'id': id,

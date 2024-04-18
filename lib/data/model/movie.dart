@@ -1,7 +1,7 @@
-import 'package:booko/data/model/base_model.dart';
+import 'package:booko/data/model/mixin/query_builder.dart';
 import 'package:fast_equatable/fast_equatable.dart';
 
-class Movie extends BaseModel<Movie> with FastEquatable {
+class Movie with QueryBuilder<Movie>, FastEquatable {
   String? id;
   String? title;
   String? description;
@@ -30,22 +30,23 @@ class Movie extends BaseModel<Movie> with FastEquatable {
     this.updatedAt,
   });
 
-  Movie.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    description = json['description'];
-    director = json['director'];
-    producer = json['producer'];
-    releaseDate = json['release_date'];
-    imageUrl = json['image_url'];
-    price = json['price'];
-    genres = json['genres'];
-    schedule = DateTime.parse(json['schedule']);
-    createdAt = DateTime.parse(json['created_at']);
-    updatedAt = DateTime.parse(json['updated_at']);
+  factory Movie.fromJson(Map<String, dynamic> json) {
+    return Movie(
+      id: json['id'],
+      title: json['title'],
+      description: json['description'],
+      director: json['director'],
+      producer: json['producer'],
+      releaseDate: json['release_date'],
+      imageUrl: json['image_url'],
+      price: json['price'],
+      genres: List<String>.from(json['genres']),
+      schedule: json['schedule'] != null ? DateTime.parse(json['schedule']) : null,
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
+    );
   }
 
-  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,

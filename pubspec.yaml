@@ -47,6 +47,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   auto_size_text: ^3.0.0
   toastification: ^1.2.1
+  android_minimizer: ^0.0.1
 
 dev_dependencies:
   flutter_test:

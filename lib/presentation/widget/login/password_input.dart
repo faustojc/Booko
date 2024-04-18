@@ -12,7 +12,6 @@ class PasswordInput extends StatelessWidget {
       builder: (context, state) {
         return TextFormField(
           key: const Key('login_password_input'),
-          initialValue: state.password,
           style: const TextStyle(color: Colors.white),
           obscureText: !state.isObscure,
           validator: (password) {

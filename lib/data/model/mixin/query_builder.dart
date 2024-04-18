@@ -12,19 +12,20 @@ mixin QueryBuilder<T> {
   dynamic _startAfter;
   dynamic _endBefore;
 
+  T fromJson(Map<String, dynamic> json);
+
+  String get documentName;
+
   Future<void> update(Map<String, dynamic> data) async {
     assert(_whereClauses.isNotEmpty, 'Cannot update without a where clause');
 
-    var clause = _whereClauses.first;
+    final clause = _whereClauses.first;
 
     if (clause['operator'] != '==') {
       throw Exception('Update operation only supports equality checks');
     }
 
-    await _firestore
-        .collection(this.documentName)
-        .doc(clause['value'])
-        .update(data);
+    await _firestore.collection(this.documentName).doc(clause['value']).update(data);
   }
 
   Future<DocumentReference> insert(Map<String, dynamic> data) async {
@@ -36,15 +37,12 @@ mixin QueryBuilder<T> {
       throw Exception('Cannot delete without a where clause');
     }
 
-    var clause = _whereClauses.first;
+    final clause = _whereClauses.first;
     if (clause['operator'] != '==') {
       throw Exception('Delete operation only supports equality checks');
     }
 
-    await _firestore
-        .collection(this.documentName)
-        .doc(clause['value'])
-        .delete();
+    await _firestore.collection(this.documentName).doc(clause['value']).delete();
   }
 
   QueryBuilder<T> where({required String field, required String operator, required String value}) {
@@ -85,7 +83,7 @@ mixin QueryBuilder<T> {
   Future<List<T>> get() async {
     Query query = _firestore.collection(this.documentName);
 
-    for (var clause in _whereClauses) {
+    for (Map<String, dynamic> clause in _whereClauses) {
       switch (clause['operator']) {
         case '==':
           query = query.where(clause['field'], isEqualTo: clause['value']);
@@ -144,7 +142,4 @@ mixin QueryBuilder<T> {
     final snapshots = await query.get();
     return snapshots.docs.map((doc) => fromJson(doc.data() as Map<String, dynamic>)).toList();
   }
-
-  T fromJson(Map<String, dynamic> json);
-  String get documentName;
 }

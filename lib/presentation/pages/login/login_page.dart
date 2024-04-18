@@ -22,7 +22,7 @@ class LoginPage extends StatelessWidget {
                 toastification.show(
                   context: context,
                   type: ToastificationType.error,
-                  autoCloseDuration: const Duration(seconds: 3),
+                  autoCloseDuration: const Duration(seconds: 5),
                   description: Text(state.message, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
                   alignment: Alignment.topCenter,
                   style: ToastificationStyle.fillColored,

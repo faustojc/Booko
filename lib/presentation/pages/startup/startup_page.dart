@@ -12,9 +12,11 @@ class StartupPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final startupBloc = StartupBloc(appBloc: BlocProvider.of<AppBloc>(context));
 
+    _precacheImages(context);
+
     return BlocListener<StartupBloc, StartupState>(
       bloc: startupBloc,
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is StartupHome) {
           Navigator.of(context).pushAndRemoveUntil<void>(Routes.home(), (route) => false);
         } else if (state is StartupLogin) {
@@ -25,5 +27,9 @@ class StartupPage extends StatelessWidget {
       },
       child: Container(),
     );
+  }
+
+  Future<void> _precacheImages(BuildContext context) async {
+    await precacheImage(const AssetImage('assets/images/logo/logo-color-with-name.png'), context);
   }
 }

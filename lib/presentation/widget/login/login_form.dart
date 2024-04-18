@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:booko/domain/routes/route.dart';
 import 'package:booko/presentation/widget/login/email_input.dart';
 import 'package:booko/presentation/widget/login/login_button.dart';
 import 'package:booko/presentation/widget/login/password_input.dart';
@@ -39,7 +40,7 @@ class LoginForm extends StatelessWidget {
           children: [
             const AutoSizeText('Don\'t have an account?', style: TextStyle(color: Colors.white, fontSize: 14)),
             TextButton(
-              onPressed: () {},
+              onPressed: () => Navigator.push(context, Routes.register()),
               child: const AutoSizeText('Register', style: TextStyle(color: ThemeColor.secondary, fontSize: 14)),
             ),
           ],

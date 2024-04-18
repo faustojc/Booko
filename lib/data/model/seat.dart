@@ -1,7 +1,7 @@
-import 'package:booko/data/model/base_model.dart';
+import 'package:booko/data/model/mixin/query_builder.dart';
 import 'package:fast_equatable/fast_equatable.dart';
 
-class Seat extends BaseModel<Seat> with FastEquatable {
+class Seat with QueryBuilder<Seat>, FastEquatable {
   String? id;
   String? movieId;
   String? seatNumber;
@@ -18,16 +18,17 @@ class Seat extends BaseModel<Seat> with FastEquatable {
     this.updatedAt,
   });
 
-  Seat.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    movieId = json['movie_id'];
-    seatNumber = json['seat_number'];
-    occupied = json['occupied'];
-    createdAt = DateTime.parse(json['created_at']);
-    updatedAt = DateTime.parse(json['updated_at']);
+  factory Seat.fromJson(Map<String, dynamic> json) {
+    return Seat(
+      id: json['id'],
+      movieId: json['movie_id'],
+      seatNumber: json['seat_number'],
+      occupied: json['occupied'],
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
+    );
   }
 
-  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,

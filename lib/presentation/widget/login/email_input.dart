@@ -12,7 +12,6 @@ class EmailInput extends StatelessWidget {
       builder: (context, state) {
         return TextFormField(
           key: const Key('login_email_input'),
-          initialValue: state.email,
           style: const TextStyle(color: Colors.white),
           keyboardType: TextInputType.emailAddress,
           validator: (email) {
