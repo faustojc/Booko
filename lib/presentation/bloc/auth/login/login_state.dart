@@ -1,25 +1,33 @@
 part of 'login_bloc.dart';
 
 final class LoginState with FastEquatable {
-  final String? username;
+  final String? email;
   final String? password;
-  final bool isValid;
+  final bool isEmailValid;
+  final bool isPasswordValid;
+  final bool isObscure;
 
   LoginState({
-    this.username,
+    this.email,
     this.password,
-    this.isValid = false,
+    this.isEmailValid = false,
+    this.isPasswordValid = false,
+    this.isObscure = false,
   });
 
   LoginState copyWith({
-    String? username,
+    String? email,
     String? password,
-    bool? isValid,
+    bool? isEmailValid,
+    bool? isPasswordValid,
+    bool? isObscure,
   }) {
     return LoginState(
-      username: username ?? this.username,
+      email: email ?? this.email,
       password: password ?? this.password,
-      isValid: isValid ?? this.isValid,
+      isEmailValid: isEmailValid ?? this.isEmailValid,
+      isPasswordValid: isPasswordValid ?? this.isPasswordValid,
+      isObscure: isObscure ?? this.isObscure,
     );
   }
 
@@ -27,7 +35,18 @@ final class LoginState with FastEquatable {
   bool get cacheHash => true;
 
   @override
-  List<Object?> get hashParameters => [username, password, isValid];
+  List<Object?> get hashParameters => [email, password, isEmailValid, isPasswordValid, isObscure];
+}
+
+final class LoginLoading extends LoginState {
+  @override
+  bool get cacheHash => false;
+
+  @override
+  List<Object?> get hashParameters {
+    super.hashParameters;
+    return [];
+  }
 }
 
 final class LoginSuccess extends LoginState {

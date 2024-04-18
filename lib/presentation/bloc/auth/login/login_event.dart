@@ -8,10 +8,11 @@ sealed class LoginEvent with FastEquatable {
   List<Object?> get hashParameters => [];
 }
 
-final class LoginOnUsernameChanged extends LoginEvent {
-  final String username;
+final class LoginOnEmailChanged extends LoginEvent {
+  final String email;
+  final bool isValid;
 
-  LoginOnUsernameChanged(this.username);
+  LoginOnEmailChanged(this.email, this.isValid);
 
   @override
   bool get cacheHash => true;
@@ -19,14 +20,15 @@ final class LoginOnUsernameChanged extends LoginEvent {
   @override
   List<Object?> get hashParameters {
     super.hashParameters;
-    return [username];
+    return [email, isValid];
   }
 }
 
 final class LoginOnPasswordChanged extends LoginEvent {
   final String password;
+  final bool isValid;
 
-  LoginOnPasswordChanged(this.password);
+  LoginOnPasswordChanged(this.password, this.isValid);
 
   @override
   bool get cacheHash => true;
@@ -34,7 +36,22 @@ final class LoginOnPasswordChanged extends LoginEvent {
   @override
   List<Object?> get hashParameters {
     super.hashParameters;
-    return [password];
+    return [password, isValid];
+  }
+}
+
+final class LoginToggleObscure extends LoginEvent {
+  final bool isObscure;
+
+  LoginToggleObscure(this.isObscure);
+
+  @override
+  bool get cacheHash => true;
+
+  @override
+  List<Object?> get hashParameters {
+    super.hashParameters;
+    return [isObscure];
   }
 }
 

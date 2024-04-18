@@ -1,6 +1,7 @@
 import 'package:booko/domain/repository/auth/auth_repo.dart';
 import 'package:booko/presentation/bloc/app/app_bloc.dart';
 import 'package:booko/presentation/pages/startup/startup_page.dart';
+import 'package:booko/resources/colors/theme_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,13 +49,14 @@ class App extends StatelessWidget {
               title: 'Booko',
               theme: ThemeData(
                 colorScheme: ColorScheme.fromSeed(
-                  seedColor: const Color(0xFFF8663D),
-                  primary: const Color(0xFFF8663D),
-                  secondary: const Color(0xFFEA3A4E),
-                  tertiary: const Color(0xFFD71261),
-                  background: const Color(0xFF000000),
-                  surface: const Color(0xFF404042),
-                  outline: const Color(0xFFD1D1D4),
+                  seedColor: ThemeColor.primary,
+                  primary: ThemeColor.primary,
+                  secondary: ThemeColor.secondary,
+                  tertiary: ThemeColor.tertiary,
+                  background: ThemeColor.background,
+                  surface: ThemeColor.surface,
+                  surfaceVariant: ThemeColor.surfaceVariant,
+                  outline: ThemeColor.outline,
                 ),
                 textTheme: const TextTheme(
                   displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),

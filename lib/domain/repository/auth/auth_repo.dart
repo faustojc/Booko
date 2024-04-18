@@ -52,7 +52,7 @@ class LoginException implements Exception {
       case "operation-not-allowed":
         return LoginException(message: "Operation not allowed.");
       case "invalid-credential":
-        return LoginException(message: "Invalid email or password.");
+        return LoginException(message: "Email or password is incorrect.");
       default:
         return LoginException();
     }
