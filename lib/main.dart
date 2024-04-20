@@ -1,4 +1,5 @@
 import 'package:booko/domain/repository/auth/auth_repo.dart';
+import 'package:booko/domain/repository/user/user_repo.dart';
 import 'package:booko/presentation/bloc/app/app_bloc.dart';
 import 'package:booko/presentation/pages/startup/startup_page.dart';
 import 'package:booko/resources/colors/theme_colors.dart';
@@ -24,8 +25,11 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider<AuthRepo>(
-        create: (_) => AuthRepo(),
+    return MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider<AuthRepo>(create: (context) => AuthRepo()),
+          RepositoryProvider<UserRepo>(create: (context) => UserRepo(authRepo: RepositoryProvider.of<AuthRepo>(context))),
+        ],
         child: MultiBlocProvider(
           providers: [
             BlocProvider<AppBloc>(create: (context) {

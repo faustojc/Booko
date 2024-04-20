@@ -1,29 +1,30 @@
-import 'package:booko/presentation/bloc/auth/login/login_bloc.dart';
+import 'package:booko/presentation/bloc/auth/register/register_cubit.dart';
 import 'package:booko/resources/colors/theme_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class EmailInput extends StatelessWidget {
-  const EmailInput({super.key});
+class RegisterEmailInput extends StatelessWidget {
+  const RegisterEmailInput({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LoginBloc, LoginState>(
+    return BlocBuilder<RegisterCubit, RegisterState>(
       builder: (context, state) {
         return TextFormField(
-          key: const Key('login_email_input'),
           style: const TextStyle(color: Colors.white),
           keyboardType: TextInputType.emailAddress,
           validator: (email) {
             if (email == null || email.isEmpty) {
-              context.read<LoginBloc>().add(LoginOnEmailChanged(email!.trim(), false));
+              context.read<RegisterCubit>().onInputChanged(email: email!.trim(), isEmailValid: false);
               return 'Email field cannot be empty';
-            } else if (!RegExp(r'^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$').hasMatch(email)) {
-              context.read<LoginBloc>().add(LoginOnEmailChanged(email.trim(), false));
+            }
+
+            if (!RegExp(r'^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$').hasMatch(email)) {
+              context.read<RegisterCubit>().onInputChanged(email: email.trim(), isEmailValid: false);
               return 'Invalid email address';
             }
 
-            context.read<LoginBloc>().add(LoginOnEmailChanged(email.trim(), true));
+            context.read<RegisterCubit>().onInputChanged(email: email.trim(), isEmailValid: true);
             return null;
           },
           autovalidateMode: AutovalidateMode.onUserInteraction,

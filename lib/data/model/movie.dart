@@ -2,70 +2,86 @@ import 'package:booko/data/model/mixin/query_builder.dart';
 import 'package:fast_equatable/fast_equatable.dart';
 
 class Movie with QueryBuilder<Movie>, FastEquatable {
-  String? id;
+  String? userId;
   String? title;
   String? description;
   String? director;
   String? producer;
-  String? releaseDate;
-  String? imageUrl;
+  DateTime? releaseDate;
+  String? posterUrl;
   num? price;
   List<String> genres = [];
-  DateTime? schedule;
+  List<DateTime> schedules = [];
   DateTime? createdAt;
   DateTime? updatedAt;
 
   Movie({
-    this.id,
+    this.userId,
     this.title,
     this.description,
     this.director,
     this.producer,
     this.releaseDate,
-    this.imageUrl,
+    this.posterUrl,
     this.price,
     this.genres = const [],
+    this.schedules = const [],
     this.createdAt,
-    this.schedule,
     this.updatedAt,
   });
 
   factory Movie.fromJson(Map<String, dynamic> json) {
+    if (json['release_date'] != null && json['release_date'] is String) {
+      json['release_date'] = DateTime.parse(json['release_date']);
+    }
+
+    if (json['schedules'] != null && json['schedules'] is List<String> && json['schedules'].isNotEmpty) {
+      json['schedules'] = json['schedules'].map((e) => DateTime.parse(e)).toList();
+    }
+
+    if (json['created_at'] != null && json['created_at'] is String) {
+      json['created_at'] = DateTime.parse(json['created_at']);
+    }
+
+    if (json['updated_at'] != null && json['updated_at'] is String) {
+      json['updated_at'] = DateTime.parse(json['updated_at']);
+    }
+
     return Movie(
-      id: json['id'],
+      userId: json['user_id'],
       title: json['title'],
       description: json['description'],
       director: json['director'],
       producer: json['producer'],
       releaseDate: json['release_date'],
-      imageUrl: json['image_url'],
+      posterUrl: json['image_url'],
       price: json['price'],
       genres: List<String>.from(json['genres']),
-      schedule: json['schedule'] != null ? DateTime.parse(json['schedule']) : null,
-      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
-      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
+      schedules: List<DateTime>.from(json['schedules']),
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      'user_id': userId,
       'title': title,
       'description': description,
       'director': director,
       'producer': producer,
       'release_date': releaseDate,
-      'image_url': imageUrl,
+      'image_url': posterUrl,
       'price': price,
       'genres': genres,
-      'schedule': schedule?.toIso8601String(),
+      'schedule': schedules.map((e) => e.toIso8601String()),
       'created_at': createdAt?.toIso8601String(),
       'updated_at': updatedAt?.toIso8601String(),
     };
   }
 
   @override
-  String get documentName => 'movies';
+  String get collectionName => 'movies';
 
   @override
   fromJson(Map<String, dynamic> json) {
@@ -77,16 +93,16 @@ class Movie with QueryBuilder<Movie>, FastEquatable {
 
   @override
   List<Object?> get hashParameters => [
-        id,
+        userId,
         title,
         description,
         director,
         producer,
         releaseDate,
-        imageUrl,
+        posterUrl,
         price,
         genres,
-        schedule,
+        schedules,
         createdAt,
         updatedAt,
       ];

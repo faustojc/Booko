@@ -5,6 +5,7 @@ mixin QueryBuilder<T> {
   final List<Map<String, dynamic>> _whereClauses = [];
 
   String _orderBy = '';
+  bool _descending = false;
   int _limit = 0;
 
   dynamic _startAt;
@@ -14,8 +15,20 @@ mixin QueryBuilder<T> {
 
   T fromJson(Map<String, dynamic> json);
 
-  String get documentName;
+  String get collectionName;
 
+  /// Updates a document in the Firestore collection with the given [data].
+  ///
+  /// The update operation is only supported for equality checks. If the first
+  /// where clause is not an equality check, an [Exception] is thrown.
+  ///
+  /// The [data] parameter is a map of field names to new values. It is modified
+  /// by adding an 'updated_at' field with the current timestamp if not present.
+  ///
+  /// Throws an [AssertionError] if there are no where clauses or the where is not used.
+  /// Throws an [Exception] if the first where clause is not an equality check.
+  ///
+  /// Returns a [Future] that completes when the update is complete.
   Future<void> update(Map<String, dynamic> data) async {
     assert(_whereClauses.isNotEmpty, 'Cannot update without a where clause');
 
@@ -25,13 +38,38 @@ mixin QueryBuilder<T> {
       throw Exception('Update operation only supports equality checks');
     }
 
-    await _firestore.collection(this.documentName).doc(clause['value']).update(data);
+    data['updated_at'] = DateTime.now().toIso8601String();
+
+    await _firestore.collection(this.collectionName).doc(clause['value']).update(data);
   }
 
+  /// Inserts a new document into the Firestore collection with the given [data].
+  ///
+  /// The [data] parameter is a map of field names to their corresponding values.
+  /// If the 'created_at' field is not present in the [data] map, it is added
+  /// with the current timestamp. If the 'updated_at' field is not present,
+  /// it is also added with the current timestamp.
+  ///
+  /// Returns a [Future] that completes with the [DocumentReference] of the
+  /// newly inserted document.
   Future<DocumentReference> insert(Map<String, dynamic> data) async {
-    return await _firestore.collection(this.documentName).add(data);
+    if (data['created_at'] == null) {
+      data['created_at'] = DateTime.now().toIso8601String();
+    }
+
+    if (data['updated_at'] == null) {
+      data['updated_at'] = DateTime.now().toIso8601String();
+    }
+
+    return await _firestore.collection(this.collectionName).add(data);
   }
 
+  /// Deletes a document from the Firestore collection.
+  ///
+  /// Throws an [Exception] if the delete operation is not supported or if there are no where clauses.
+  /// Throws an [Exception] if the first where clause is not an equality check.
+  ///
+  /// Returns a [Future] that completes when the delete operation is complete.
   Future<void> delete() async {
     if (_whereClauses.isEmpty) {
       throw Exception('Cannot delete without a where clause');
@@ -42,7 +80,7 @@ mixin QueryBuilder<T> {
       throw Exception('Delete operation only supports equality checks');
     }
 
-    await _firestore.collection(this.documentName).doc(clause['value']).delete();
+    await _firestore.collection(this.collectionName).doc(clause['value']).delete();
   }
 
   QueryBuilder<T> where({required String field, required String operator, required String value}) {
@@ -52,6 +90,7 @@ mixin QueryBuilder<T> {
 
   QueryBuilder<T> orderBy(String field, {bool descending = false}) {
     _orderBy = field;
+    _descending = descending;
     return this;
   }
 
@@ -80,8 +119,11 @@ mixin QueryBuilder<T> {
     return this;
   }
 
+  /// Retrieves a list of objects of type [T] from the Firestore collection.
+  ///
+  /// Returns a [Future] that completes with a list of objects of type [T].
   Future<List<T>> get() async {
-    Query query = _firestore.collection(this.documentName);
+    Query query = _firestore.collection(this.collectionName);
 
     for (Map<String, dynamic> clause in _whereClauses) {
       switch (clause['operator']) {
@@ -116,7 +158,7 @@ mixin QueryBuilder<T> {
     }
 
     if (_orderBy.isNotEmpty) {
-      query = query.orderBy(_orderBy);
+      query = query.orderBy(_orderBy, descending: _descending);
     }
 
     if (_limit > 0) {

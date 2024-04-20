@@ -1,8 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:booko/domain/routes/route.dart';
-import 'package:booko/presentation/widget/login/email_input.dart';
 import 'package:booko/presentation/widget/login/login_button.dart';
-import 'package:booko/presentation/widget/login/password_input.dart';
+import 'package:booko/presentation/widget/login/login_email_input.dart';
+import 'package:booko/presentation/widget/login/login_password_input.dart';
 import 'package:booko/resources/colors/theme_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -16,11 +16,11 @@ class LoginForm extends StatelessWidget {
       children: [
         const AutoSizeText('Email', style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
         const SizedBox(height: 15),
-        const EmailInput(),
+        const LoginEmailInput(),
         const SizedBox(height: 30),
         const AutoSizeText('Password', style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
         const SizedBox(height: 15),
-        const PasswordInput(),
+        const LoginPasswordInput(),
         const SizedBox(height: 8),
         TextButton(
           onPressed: () {},

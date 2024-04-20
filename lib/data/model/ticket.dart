@@ -2,8 +2,7 @@ import 'package:booko/data/model/mixin/query_builder.dart';
 import 'package:fast_equatable/fast_equatable.dart';
 
 class Ticket with QueryBuilder<Ticket>, FastEquatable {
-  String? id;
-  String? customerId;
+  String? userId;
   String? movieId;
   String? seatId;
   String? ticketNumber;
@@ -13,8 +12,7 @@ class Ticket with QueryBuilder<Ticket>, FastEquatable {
   DateTime? updatedAt;
 
   Ticket({
-    this.id,
-    this.customerId,
+    this.userId,
     this.movieId,
     this.seatId,
     this.ticketNumber,
@@ -25,23 +23,33 @@ class Ticket with QueryBuilder<Ticket>, FastEquatable {
   });
 
   factory Ticket.fromJson(Map<String, dynamic> json) {
+    if (json['start_date_time'] != null && json['start_date_time'] is String) {
+      json['start_date_time'] = DateTime.parse(json['start_date_time']);
+    }
+
+    if (json['created_at'] != null && json['created_at'] is String) {
+      json['created_at'] = DateTime.parse(json['created_at']);
+    }
+
+    if (json['updated_at'] != null && json['updated_at'] is String) {
+      json['updated_at'] = DateTime.parse(json['updated_at']);
+    }
+
     return Ticket(
-      id: json['id'],
-      customerId: json['customer_id'],
+      userId: json['user_id'],
       movieId: json['movie_id'],
       seatId: json['seat_id'],
       ticketNumber: json['ticket_number'],
       movieTitle: json['movie_title'],
-      startDateTime: json['start_date_time'] != null ? DateTime.parse(json['start_date_time']) : null,
-      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
-      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
+      startDateTime: json['start_date_time'],
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'customer_id': customerId,
+      'user_id': userId,
       'movie_id': movieId,
       'seat_id': seatId,
       'ticket_number': ticketNumber,
@@ -53,7 +61,7 @@ class Ticket with QueryBuilder<Ticket>, FastEquatable {
   }
 
   @override
-  String get documentName => 'tickets';
+  String get collectionName => 'tickets';
 
   @override
   fromJson(Map<String, dynamic> json) {
@@ -64,5 +72,5 @@ class Ticket with QueryBuilder<Ticket>, FastEquatable {
   bool get cacheHash => true;
 
   @override
-  List<Object?> get hashParameters => [id, customerId, movieId, seatId, ticketNumber, createdAt, updatedAt];
+  List<Object?> get hashParameters => [userId, movieId, seatId, ticketNumber, createdAt, updatedAt];
 }

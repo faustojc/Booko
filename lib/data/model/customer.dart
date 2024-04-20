@@ -2,50 +2,58 @@ import 'package:booko/data/model/mixin/query_builder.dart';
 import 'package:fast_equatable/fast_equatable.dart';
 
 class Customer with QueryBuilder<Customer>, FastEquatable {
-  String? id;
+  String? userId;
   String? firstname;
   String? lastname;
-  String? phone;
-  String? address;
+  DateTime? birthday;
   DateTime? createdAt;
   DateTime? updatedAt;
 
   Customer({
-    this.id,
+    this.userId,
     this.firstname,
     this.lastname,
-    this.phone,
-    this.address,
+    this.birthday,
     this.createdAt,
     this.updatedAt,
   });
 
   factory Customer.fromJson(Map<String, dynamic> json) {
+    if (json['birthday'] != null && json['birthday'] is String) {
+      json['birthday'] = DateTime.parse(json['birthday']);
+    }
+
+    if (json['created_at'] != null && json['created_at'] is String) {
+      json['created_at'] = DateTime.parse(json['created_at']);
+    }
+
+    if (json['updated_at'] != null && json['updated_at'] is String) {
+      json['updated_at'] = DateTime.parse(json['updated_at']);
+    }
+
     return Customer(
-      id: json['id'],
+      userId: json['user_id'],
       firstname: json['firstname'],
       lastname: json['lastname'],
-      phone: json['phone'],
-      address: json['address'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      birthday: json['birthday'],
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
     );
   }
-  
+
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      'user_id': userId,
       'firstname': firstname,
       'lastname': lastname,
-      'phone': phone,
-      'address': address,
+      'birthday': birthday?.toIso8601String(),
       'created_at': createdAt?.toIso8601String(),
       'updated_at': updatedAt?.toIso8601String(),
     };
   }
 
   @override
-  String get documentName => 'customers';
+  String get collectionName => 'customers';
 
   @override
   fromJson(Map<String, dynamic> json) {
@@ -56,5 +64,5 @@ class Customer with QueryBuilder<Customer>, FastEquatable {
   bool get cacheHash => true;
 
   @override
-  List<Object?> get hashParameters => [id, firstname, lastname, phone, address, createdAt, updatedAt];
+  List<Object?> get hashParameters => [userId, firstname, lastname, birthday, createdAt, updatedAt];
 }
