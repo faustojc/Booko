@@ -2,10 +2,8 @@ import 'package:booko/data/model/mixin/query_builder.dart';
 import 'package:fast_equatable/fast_equatable.dart';
 
 class Movie with QueryBuilder<Movie>, FastEquatable {
-  String? userId;
   String? title;
   String? description;
-  String? director;
   String? producer;
   DateTime? releaseDate;
   String? posterUrl;
@@ -16,10 +14,8 @@ class Movie with QueryBuilder<Movie>, FastEquatable {
   DateTime? updatedAt;
 
   Movie({
-    this.userId,
     this.title,
     this.description,
-    this.director,
     this.producer,
     this.releaseDate,
     this.posterUrl,
@@ -48,13 +44,11 @@ class Movie with QueryBuilder<Movie>, FastEquatable {
     }
 
     return Movie(
-      userId: json['user_id'],
       title: json['title'],
       description: json['description'],
-      director: json['director'],
       producer: json['producer'],
       releaseDate: json['release_date'],
-      posterUrl: json['image_url'],
+      posterUrl: json['poster_url'],
       price: json['price'],
       genres: List<String>.from(json['genres']),
       schedules: List<DateTime>.from(json['schedules']),
@@ -65,13 +59,11 @@ class Movie with QueryBuilder<Movie>, FastEquatable {
 
   Map<String, dynamic> toJson() {
     return {
-      'user_id': userId,
       'title': title,
       'description': description,
-      'director': director,
       'producer': producer,
       'release_date': releaseDate,
-      'image_url': posterUrl,
+      'poster_url': posterUrl,
       'price': price,
       'genres': genres,
       'schedule': schedules.map((e) => e.toIso8601String()),
@@ -93,10 +85,8 @@ class Movie with QueryBuilder<Movie>, FastEquatable {
 
   @override
   List<Object?> get hashParameters => [
-        userId,
         title,
         description,
-        director,
         producer,
         releaseDate,
         posterUrl,

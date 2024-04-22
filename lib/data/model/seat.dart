@@ -2,7 +2,6 @@ import 'package:booko/data/model/mixin/query_builder.dart';
 import 'package:fast_equatable/fast_equatable.dart';
 
 class Seat with QueryBuilder<Seat>, FastEquatable {
-  String? userId;
   String? movieId;
   String? seatNumber;
   bool occupied = false;
@@ -10,7 +9,6 @@ class Seat with QueryBuilder<Seat>, FastEquatable {
   DateTime? updatedAt;
 
   Seat({
-    this.userId,
     this.movieId,
     this.seatNumber,
     this.occupied = false,
@@ -28,7 +26,6 @@ class Seat with QueryBuilder<Seat>, FastEquatable {
     }
 
     return Seat(
-      userId: json['user_id'],
       movieId: json['movie_id'],
       seatNumber: json['seat_number'],
       occupied: json['occupied'],
@@ -39,7 +36,6 @@ class Seat with QueryBuilder<Seat>, FastEquatable {
 
   Map<String, dynamic> toJson() {
     return {
-      'user_id': userId,
       'movie_id': movieId,
       'seat_number': seatNumber,
       'occupied': occupied,
@@ -60,5 +56,5 @@ class Seat with QueryBuilder<Seat>, FastEquatable {
   bool get cacheHash => true;
 
   @override
-  List<Object?> get hashParameters => [userId, movieId, seatNumber, occupied, createdAt, updatedAt];
+  List<Object?> get hashParameters => [movieId, seatNumber, occupied, createdAt, updatedAt];
 }

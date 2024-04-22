@@ -12,10 +12,10 @@ class UserRepo {
   UserRepo({required AuthRepo authRepo}) : _authRepo = authRepo;
 
   Future<void> fetchData() async {
-    customer ??= (await Customer().where(field: 'user_id', operator: '==', value: _authRepo.currentUser!.uid).get()).first;
+    customer ??= (await Customer().where('user_id', isEqualTo: _authRepo.currentUser!.uid).get()).first;
 
     if (tickets.isEmpty) {
-      tickets.addAll((await Ticket().where(field: 'user_id', operator: '==', value: _authRepo.currentUser!.uid).get()).toList());
+      tickets.addAll(await Ticket().where('user_id', isEqualTo: _authRepo.currentUser!.uid).get());
     }
   }
 

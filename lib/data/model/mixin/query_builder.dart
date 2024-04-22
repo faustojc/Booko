@@ -8,10 +8,11 @@ mixin QueryBuilder<T> {
   bool _descending = false;
   int _limit = 0;
 
-  dynamic _startAt;
-  dynamic _endAt;
-  dynamic _startAfter;
-  dynamic _endBefore;
+  late DocumentSnapshot<Map<String, dynamic>> _startAfterDocument;
+  late Iterable<Object> _startAt;
+  late Iterable<Object> _endAt;
+  late Iterable<Object> _startAfter;
+  late Iterable<Object> _endBefore;
 
   T fromJson(Map<String, dynamic> json);
 
@@ -52,7 +53,7 @@ mixin QueryBuilder<T> {
   ///
   /// Returns a [Future] that completes with the [DocumentReference] of the
   /// newly inserted document.
-  Future<DocumentReference> insert(Map<String, dynamic> data) async {
+  Future<DocumentReference<Map<String, dynamic>>> insert(Map<String, dynamic> data) async {
     if (data['created_at'] == null) {
       data['created_at'] = DateTime.now().toIso8601String();
     }
@@ -83,8 +84,32 @@ mixin QueryBuilder<T> {
     await _firestore.collection(this.collectionName).doc(clause['value']).delete();
   }
 
-  QueryBuilder<T> where({required String field, required String operator, required String value}) {
-    _whereClauses.add({'field': field, 'operator': operator, 'value': value});
+  QueryBuilder<T> where(
+    String field, {
+    Object? isEqualTo,
+    Object? isNotEqualTo,
+    Object? isLessThan,
+    Object? isLessThanOrEqualTo,
+    Object? isGreaterThan,
+    Object? isGreaterThanOrEqualTo,
+    Object? arrayContains,
+    Iterable<Object>? arrayContainsAny,
+    Iterable<Object>? whereIn,
+    Iterable<Object>? whereNotIn,
+  }) {
+    _whereClauses.add({
+      'field': field,
+      'isEqualTo': isEqualTo,
+      'isNotEqualTo': isNotEqualTo,
+      'isLessThan': isLessThan,
+      'isLessThanOrEqualTo': isLessThanOrEqualTo,
+      'isGreaterThan': isGreaterThan,
+      'isGreaterThanOrEqualTo': isGreaterThanOrEqualTo,
+      'arrayContains': arrayContains,
+      'arrayContainsAny': arrayContainsAny,
+      'whereIn': whereIn,
+      'whereNotIn': whereNotIn,
+    });
     return this;
   }
 
@@ -99,22 +124,27 @@ mixin QueryBuilder<T> {
     return this;
   }
 
-  QueryBuilder<T> startAt(dynamic value) {
+  QueryBuilder<T> startAt(Iterable<Object> value) {
     _startAt = value;
     return this;
   }
 
-  QueryBuilder<T> endAt(dynamic value) {
+  QueryBuilder<T> endAt(Iterable<Object> value) {
     _endAt = value;
     return this;
   }
 
-  QueryBuilder<T> startAfter(dynamic value) {
+  QueryBuilder<T> startAfter(Iterable<Object> value) {
     _startAfter = value;
     return this;
   }
 
-  QueryBuilder<T> endBefore(dynamic value) {
+  QueryBuilder<T> startAfterDocument(DocumentSnapshot<Map<String, dynamic>> document) {
+    _startAfterDocument = document;
+    return this;
+  }
+
+  QueryBuilder<T> endBefore(Iterable<Object> value) {
     _endBefore = value;
     return this;
   }
@@ -125,35 +155,21 @@ mixin QueryBuilder<T> {
   Future<List<T>> get() async {
     Query query = _firestore.collection(this.collectionName);
 
-    for (Map<String, dynamic> clause in _whereClauses) {
-      switch (clause['operator']) {
-        case '==':
-          query = query.where(clause['field'], isEqualTo: clause['value']);
-          break;
-        case '<':
-          query = query.where(clause['field'], isLessThan: clause['value']);
-          break;
-        case '<=':
-          query = query.where(clause['field'], isLessThanOrEqualTo: clause['value']);
-          break;
-        case '>':
-          query = query.where(clause['field'], isGreaterThan: clause['value']);
-          break;
-        case '>=':
-          query = query.where(clause['field'], isGreaterThanOrEqualTo: clause['value']);
-          break;
-        case 'array-contains':
-          query = query.where(clause['field'], arrayContains: clause['value']);
-          break;
-        case 'array-contains-any':
-          query = query.where(clause['field'], arrayContainsAny: clause['value']);
-          break;
-        case 'in':
-          query = query.where(clause['field'], whereIn: clause['value']);
-          break;
-        case 'not-in':
-          query = query.where(clause['field'], whereNotIn: clause['value']);
-          break;
+    if (_whereClauses.isNotEmpty) {
+      for (Map<String, dynamic> clause in _whereClauses) {
+        query = query.where(
+          clause['field'],
+          isEqualTo: clause['isEqualTo'],
+          isNotEqualTo: clause['isNotEqualTo'],
+          isLessThan: clause['isLessThan'],
+          isLessThanOrEqualTo: clause['isLessThanOrEqualTo'],
+          isGreaterThan: clause['isGreaterThan'],
+          isGreaterThanOrEqualTo: clause['isGreaterThanOrEqualTo'],
+          arrayContains: clause['arrayContains'],
+          arrayContainsAny: clause['arrayContainsAny'],
+          whereIn: clause['whereIn'],
+          whereNotIn: clause['whereNotIn'],
+        );
       }
     }
 
@@ -165,20 +181,24 @@ mixin QueryBuilder<T> {
       query = query.limit(_limit);
     }
 
-    if (_startAt != null) {
-      query = query.startAt([_startAt]);
+    if (_startAt.isNotEmpty) {
+      query = query.startAt(_startAt);
     }
 
-    if (_endAt != null) {
-      query = query.endAt([_endAt]);
+    if (_endAt.isNotEmpty) {
+      query = query.endAt(_endAt);
     }
 
-    if (_startAfter != null) {
-      query = query.startAfter([_startAfter]);
+    if (_startAfter.isNotEmpty) {
+      query = query.startAfter(_startAfter);
     }
 
-    if (_endBefore != null) {
-      query = query.endBefore([_endBefore]);
+    if (_endBefore.isNotEmpty) {
+      query = query.endBefore(_endBefore);
+    }
+
+    if (_startAfterDocument.exists) {
+      query = query.startAfterDocument(_startAfterDocument);
     }
 
     final snapshots = await query.get();

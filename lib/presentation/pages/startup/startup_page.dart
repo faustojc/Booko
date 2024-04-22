@@ -33,7 +33,10 @@ class StartupPage extends StatelessWidget {
     );
   }
 
-  Future<void> _precacheImages(BuildContext context) async {
-    await precacheImage(const AssetImage('assets/images/logo/logo-color-with-name.png'), context);
+  void _precacheImages(BuildContext context) {
+    if (context.mounted) {
+      precacheImage(const AssetImage('assets/images/logo/logo-color-with-name.png'), context);
+      precacheImage(const AssetImage('assets/images/logo/logo-color.png'), context);
+    }
   }
 }
