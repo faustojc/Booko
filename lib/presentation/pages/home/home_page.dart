@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
     final initials = name!.substring(0, 2).toUpperCase() + userRepo.customer!.lastname!.substring(0, 2).toUpperCase();
 
     return BlocProvider<MoviesBloc>(
-      create: (_) => MoviesBloc(RepositoryProvider.of<MovieRepo>(context))..add(MoviesFetchInitialData()),
+      create: (_) => MoviesBloc(RepositoryProvider.of<MovieRepo>(context)),
       child: SafeArea(
         child: BlocListener<MoviesBloc, MoviesState>(
           listener: (context, state) {

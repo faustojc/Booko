@@ -11,7 +11,7 @@ class MovieRepo {
   }
 
   Future<void> fetchInitialData() async {
-    final data = await Movie().orderBy('created_at', descending: true).limit(6).get();
+    final data = await Movie().orderBy('updated_at', descending: true).limit(6).get();
 
     for (final movie in data) {
       final url = await _storage.ref().child("movies/spider_man_beyond_the_spider_verse.jpg").getDownloadURL();

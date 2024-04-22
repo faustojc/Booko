@@ -27,20 +27,20 @@ class Movie with QueryBuilder<Movie>, FastEquatable {
   });
 
   factory Movie.fromJson(Map<String, dynamic> json) {
-    if (json['release_date'] != null && json['release_date'] is String) {
-      json['release_date'] = DateTime.parse(json['release_date']);
+    if (json['release_date'] != null && json['release_date'] is int) {
+      json['release_date'] = DateTime.fromMillisecondsSinceEpoch(json['release_date']);
     }
 
-    if (json['schedules'] != null && json['schedules'] is List<String> && json['schedules'].isNotEmpty) {
-      json['schedules'] = json['schedules'].map((e) => DateTime.parse(e)).toList();
+    if (json['schedules'] != null && json['schedules'] is List<int> && json['schedules'].isNotEmpty) {
+      json['schedules'] = json['schedules'].map((e) => DateTime.fromMillisecondsSinceEpoch(e)).toList();
     }
 
-    if (json['created_at'] != null && json['created_at'] is String) {
-      json['created_at'] = DateTime.parse(json['created_at']);
+    if (json['created_at'] != null && json['created_at'] is int) {
+      json['created_at'] = DateTime.fromMillisecondsSinceEpoch(json['created_at']);
     }
 
-    if (json['updated_at'] != null && json['updated_at'] is String) {
-      json['updated_at'] = DateTime.parse(json['updated_at']);
+    if (json['updated_at'] != null && json['updated_at'] is int) {
+      json['updated_at'] = DateTime.fromMillisecondsSinceEpoch(json['updated_at']);
     }
 
     return Movie(
@@ -66,9 +66,9 @@ class Movie with QueryBuilder<Movie>, FastEquatable {
       'poster_url': posterUrl,
       'price': price,
       'genres': genres,
-      'schedule': schedules.map((e) => e.toIso8601String()),
-      'created_at': createdAt?.toIso8601String(),
-      'updated_at': updatedAt?.toIso8601String(),
+      'schedule': schedules.map((e) => e.millisecondsSinceEpoch),
+      'created_at': createdAt?.millisecondsSinceEpoch,
+      'updated_at': updatedAt?.millisecondsSinceEpoch,
     };
   }
 

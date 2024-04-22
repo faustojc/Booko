@@ -17,12 +17,12 @@ class Seat with QueryBuilder<Seat>, FastEquatable {
   });
 
   factory Seat.fromJson(Map<String, dynamic> json) {
-    if (json['created_at'] != null && json['created_at'] is String) {
-      json['created_at'] = DateTime.parse(json['created_at']);
+    if (json['created_at'] != null && json['created_at'] is int) {
+      json['created_at'] = DateTime.fromMillisecondsSinceEpoch(json['created_at']);
     }
 
-    if (json['updated_at'] != null && json['updated_at'] is String) {
-      json['updated_at'] = DateTime.parse(json['updated_at']);
+    if (json['updated_at'] != null && json['updated_at'] is int) {
+      json['updated_at'] = DateTime.fromMillisecondsSinceEpoch(json['updated_at']);
     }
 
     return Seat(
@@ -39,8 +39,8 @@ class Seat with QueryBuilder<Seat>, FastEquatable {
       'movie_id': movieId,
       'seat_number': seatNumber,
       'occupied': occupied,
-      'created_at': createdAt?.toIso8601String(),
-      'updated_at': updatedAt?.toIso8601String(),
+      'created_at': createdAt?.millisecondsSinceEpoch,
+      'updated_at': updatedAt?.millisecondsSinceEpoch,
     };
   }
 

@@ -23,16 +23,16 @@ class Ticket with QueryBuilder<Ticket>, FastEquatable {
   });
 
   factory Ticket.fromJson(Map<String, dynamic> json) {
-    if (json['start_date_time'] != null && json['start_date_time'] is String) {
-      json['start_date_time'] = DateTime.parse(json['start_date_time']);
+    if (json['start_date_time'] != null && json['start_date_time'] is int) {
+      json['start_date_time'] = DateTime.fromMillisecondsSinceEpoch(json['start_date_time']);
     }
 
-    if (json['created_at'] != null && json['created_at'] is String) {
-      json['created_at'] = DateTime.parse(json['created_at']);
+    if (json['created_at'] != null && json['created_at'] is int) {
+      json['created_at'] = DateTime.fromMillisecondsSinceEpoch(json['created_at']);
     }
 
-    if (json['updated_at'] != null && json['updated_at'] is String) {
-      json['updated_at'] = DateTime.parse(json['updated_at']);
+    if (json['updated_at'] != null && json['updated_at'] is int) {
+      json['updated_at'] = DateTime.fromMillisecondsSinceEpoch(json['updated_at']);
     }
 
     return Ticket(
@@ -54,9 +54,9 @@ class Ticket with QueryBuilder<Ticket>, FastEquatable {
       'seat_id': seatId,
       'ticket_number': ticketNumber,
       'movie_title': movieTitle,
-      'start_date_time': startDateTime?.toIso8601String(),
-      'created_at': createdAt?.toIso8601String(),
-      'updated_at': updatedAt?.toIso8601String(),
+      'start_date_time': startDateTime?.millisecondsSinceEpoch,
+      'created_at': createdAt?.millisecondsSinceEpoch,
+      'updated_at': updatedAt?.millisecondsSinceEpoch,
     };
   }
 
