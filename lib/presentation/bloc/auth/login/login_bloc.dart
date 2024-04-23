@@ -1,4 +1,5 @@
 import 'package:booko/domain/repository/auth/auth_repo.dart';
+import 'package:booko/domain/repository/user/user_repo.dart';
 import 'package:fast_equatable/fast_equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,8 +8,9 @@ part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthRepo authRepo;
+  final UserRepo userRepo;
 
-  LoginBloc({required this.authRepo}) : super(LoginState()) {
+  LoginBloc({required this.authRepo, required this.userRepo}) : super(LoginState()) {
     on<LoginOnEmailChanged>((event, emit) {
       if (state is LoginFailure) {
         emit(LoginState(email: event.email, isEmailValid: event.isValid));
@@ -41,6 +43,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(LoginLoading());
         try {
           await authRepo.login(email, password);
+          await userRepo.fetchData();
           emit(LoginSuccess());
         } on LoginException catch (e) {
           emit(LoginFailure(e.message));

@@ -1,4 +1,5 @@
 import 'package:booko/domain/repository/auth/auth_repo.dart';
+import 'package:booko/domain/repository/user/user_repo.dart';
 import 'package:booko/domain/routes/route.dart';
 import 'package:booko/presentation/bloc/auth/login/login_bloc.dart';
 import 'package:booko/presentation/widget/login/login_form.dart';
@@ -12,7 +13,10 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => LoginBloc(authRepo: RepositoryProvider.of<AuthRepo>(context)),
+        create: (_) => LoginBloc(
+              authRepo: RepositoryProvider.of<AuthRepo>(context),
+              userRepo: RepositoryProvider.of<UserRepo>(context),
+            ),
         child: SafeArea(
           child: BlocListener<LoginBloc, LoginState>(
             listener: (context, state) {

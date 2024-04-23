@@ -1,4 +1,5 @@
 import 'package:booko/data/model/mixin/query_builder.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fast_equatable/fast_equatable.dart';
 
 class Ticket with QueryBuilder<Ticket>, FastEquatable {
@@ -23,16 +24,16 @@ class Ticket with QueryBuilder<Ticket>, FastEquatable {
   });
 
   factory Ticket.fromJson(Map<String, dynamic> json) {
-    if (json['start_date_time'] != null && json['start_date_time'] is int) {
-      json['start_date_time'] = DateTime.fromMillisecondsSinceEpoch(json['start_date_time']);
+    if (json['start_date_time'] != null && json['start_date_time'] is Timestamp) {
+      json['start_date_time'] = json['start_date_time'].toDate();
     }
 
-    if (json['created_at'] != null && json['created_at'] is int) {
-      json['created_at'] = DateTime.fromMillisecondsSinceEpoch(json['created_at']);
+    if (json['created_at'] != null && json['created_at'] is Timestamp) {
+      json['created_at'] = json['created_at'].toDate();
     }
 
-    if (json['updated_at'] != null && json['updated_at'] is int) {
-      json['updated_at'] = DateTime.fromMillisecondsSinceEpoch(json['updated_at']);
+    if (json['updated_at'] != null && json['updated_at'] is Timestamp) {
+      json['updated_at'] = json['updated_at'].toDate();
     }
 
     return Ticket(
@@ -54,9 +55,9 @@ class Ticket with QueryBuilder<Ticket>, FastEquatable {
       'seat_id': seatId,
       'ticket_number': ticketNumber,
       'movie_title': movieTitle,
-      'start_date_time': startDateTime?.millisecondsSinceEpoch,
-      'created_at': createdAt?.millisecondsSinceEpoch,
-      'updated_at': updatedAt?.millisecondsSinceEpoch,
+      'start_date_time': Timestamp.fromDate(startDateTime!),
+      'created_at': Timestamp.fromDate(createdAt!),
+      'updated_at': Timestamp.fromDate(updatedAt!),
     };
   }
 

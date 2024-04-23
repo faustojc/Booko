@@ -8,11 +8,11 @@ mixin QueryBuilder<T> {
   bool _descending = false;
   int _limit = 0;
 
-  late DocumentSnapshot<Map<String, dynamic>> _startAfterDocument;
-  late Iterable<Object> _startAt;
-  late Iterable<Object> _endAt;
-  late Iterable<Object> _startAfter;
-  late Iterable<Object> _endBefore;
+  DocumentSnapshot<Map<String, dynamic>>? _startAfterDocument;
+  Iterable<Object> _startAt = [];
+  Iterable<Object> _endAt = [];
+  Iterable<Object> _startAfter = [];
+  Iterable<Object> _endBefore = [];
 
   T fromJson(Map<String, dynamic> json);
 
@@ -197,8 +197,8 @@ mixin QueryBuilder<T> {
       query = query.endBefore(_endBefore);
     }
 
-    if (_startAfterDocument.exists) {
-      query = query.startAfterDocument(_startAfterDocument);
+    if (_startAfterDocument != null) {
+      query = query.startAfterDocument(_startAfterDocument!);
     }
 
     final snapshots = await query.get();

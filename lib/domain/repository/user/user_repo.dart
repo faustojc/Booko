@@ -5,14 +5,14 @@ import 'package:booko/domain/repository/auth/auth_repo.dart';
 class UserRepo {
   final AuthRepo _authRepo;
 
-  late Customer? customer;
+  late Customer customer = Customer();
 
   final List<Ticket> tickets = [];
 
   UserRepo({required AuthRepo authRepo}) : _authRepo = authRepo;
 
   Future<void> fetchData() async {
-    customer ??= (await Customer().where('user_id', isEqualTo: _authRepo.currentUser!.uid).get()).first;
+    customer = (await Customer().where('user_id', isEqualTo: _authRepo.currentUser!.uid).get()).first;
 
     if (tickets.isEmpty) {
       tickets.addAll(await Ticket().where('user_id', isEqualTo: _authRepo.currentUser!.uid).get());

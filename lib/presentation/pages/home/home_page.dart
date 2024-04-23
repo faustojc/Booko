@@ -13,49 +13,58 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userRepo = RepositoryProvider.of<UserRepo>(context);
-    final name = userRepo.customer?.firstname?.split(' ').first;
-    final initials = name!.substring(0, 2).toUpperCase() + userRepo.customer!.lastname!.substring(0, 2).toUpperCase();
+    final name = userRepo.customer.firstname?.split(' ').first;
+    final initials = name!.substring(0, 1).toUpperCase() + userRepo.customer.lastname!.substring(0, 1).toUpperCase();
 
     return BlocProvider<MoviesBloc>(
       create: (_) => MoviesBloc(RepositoryProvider.of<MovieRepo>(context)),
       child: SafeArea(
-        child: BlocListener<MoviesBloc, MoviesState>(
-          listener: (context, state) {
-            if (state is MoviesError) {
-              toastification.show(
-                context: context,
-                type: ToastificationType.error,
-                autoCloseDuration: const Duration(seconds: 5),
-                description: Text(state.message, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w400)),
-                alignment: Alignment.bottomCenter,
-                style: ToastificationStyle.flatColored,
-                showProgressBar: false,
-              );
-            }
-          },
-          child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.black,
-              leading: Image.asset("assets/images/logo/logo-color.png"),
-              actions: [
-                const Text(
-                  "Welcome",
-                  style: TextStyle(color: ThemeColor.primary, fontWeight: FontWeight.w500),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 20),
+          child: BlocListener<MoviesBloc, MoviesState>(
+            listener: (context, state) {
+              if (state is MoviesError) {
+                toastification.show(
+                  context: context,
+                  type: ToastificationType.error,
+                  autoCloseDuration: const Duration(seconds: 5),
+                  description: Text(state.message, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w400)),
+                  alignment: Alignment.bottomCenter,
+                  style: ToastificationStyle.fillColored,
+                  showProgressBar: false,
+                );
+              }
+            },
+            child: Scaffold(
+              appBar: AppBar(
+                backgroundColor: Colors.black,
+                leading: Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Image.asset("assets/images/logo/logo-color.png"),
                 ),
-                Text(
-                  ", $name",
-                  style: const TextStyle(color: Colors.white),
-                ),
-                const SizedBox(width: 10),
-                GestureDetector(
-                    onTap: () {},
-                    child: CircleAvatar(
-                      backgroundColor: ThemeColor.white,
-                      child: Text(initials, style: const TextStyle(color: ThemeColor.secondary)),
-                    ))
-              ],
+                actions: [
+                  const Text(
+                    "Welcome",
+                    style: TextStyle(color: ThemeColor.primary, fontWeight: FontWeight.w500),
+                  ),
+                  Text(
+                    ", $name",
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  const SizedBox(width: 10),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: GestureDetector(
+                        onTap: () {},
+                        child: CircleAvatar(
+                          backgroundColor: ThemeColor.primary,
+                          child: Text(initials, style: const TextStyle(color: ThemeColor.white)),
+                        )),
+                  ),
+                ],
+              ),
+              body: const HomeView(),
             ),
-            body: const HomeView(),
           ),
         ),
       ),

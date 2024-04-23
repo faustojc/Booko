@@ -1,4 +1,5 @@
 import 'package:booko/data/model/mixin/query_builder.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fast_equatable/fast_equatable.dart';
 
 class Movie with QueryBuilder<Movie>, FastEquatable {
@@ -27,20 +28,20 @@ class Movie with QueryBuilder<Movie>, FastEquatable {
   });
 
   factory Movie.fromJson(Map<String, dynamic> json) {
-    if (json['release_date'] != null && json['release_date'] is int) {
-      json['release_date'] = DateTime.fromMillisecondsSinceEpoch(json['release_date']);
+    if (json['release_date'] != null && json['release_date'] is Timestamp) {
+      json['release_date'] = json['release_date'].toDate();
     }
 
-    if (json['schedules'] != null && json['schedules'] is List<int> && json['schedules'].isNotEmpty) {
-      json['schedules'] = json['schedules'].map((e) => DateTime.fromMillisecondsSinceEpoch(e)).toList();
+    if (json['schedules'] != null) {
+      json['schedules'] = json['schedules'].map((e) => e.toDate()).toList();
     }
 
-    if (json['created_at'] != null && json['created_at'] is int) {
-      json['created_at'] = DateTime.fromMillisecondsSinceEpoch(json['created_at']);
+    if (json['created_at'] != null && json['created_at'] is Timestamp) {
+      json['created_at'] = json['created_at'].toDate();
     }
 
-    if (json['updated_at'] != null && json['updated_at'] is int) {
-      json['updated_at'] = DateTime.fromMillisecondsSinceEpoch(json['updated_at']);
+    if (json['updated_at'] != null && json['updated_at'] is Timestamp) {
+      json['updated_at'] = json['updated_at'].toDate();
     }
 
     return Movie(
@@ -62,13 +63,13 @@ class Movie with QueryBuilder<Movie>, FastEquatable {
       'title': title,
       'description': description,
       'producer': producer,
-      'release_date': releaseDate,
+      'release_date': Timestamp.fromDate(releaseDate!),
       'poster_url': posterUrl,
       'price': price,
       'genres': genres,
-      'schedule': schedules.map((e) => e.millisecondsSinceEpoch),
-      'created_at': createdAt?.millisecondsSinceEpoch,
-      'updated_at': updatedAt?.millisecondsSinceEpoch,
+      'schedule': schedules.map((e) => Timestamp.fromDate(e)),
+      'created_at': Timestamp.fromDate(createdAt!),
+      'updated_at': Timestamp.fromDate(updatedAt!),
     };
   }
 

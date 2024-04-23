@@ -26,7 +26,8 @@ class StartupBloc extends Bloc<StartupEvent, StartupState> {
       }
     });
 
-    on<NavigateToHome>((event, emit) {
+    on<NavigateToHome>((event, emit) async {
+      await _userRepo.fetchData();
       emit(StartupHome());
     });
     on<NavigateToLogin>((event, emit) {

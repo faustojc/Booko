@@ -1,4 +1,5 @@
 import 'package:booko/data/model/mixin/query_builder.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fast_equatable/fast_equatable.dart';
 
 class Customer with QueryBuilder<Customer>, FastEquatable {
@@ -19,16 +20,16 @@ class Customer with QueryBuilder<Customer>, FastEquatable {
   });
 
   factory Customer.fromJson(Map<String, dynamic> json) {
-    if (json['birthday'] != null && json['birthday'] is int) {
-      json['birthday'] = DateTime.fromMillisecondsSinceEpoch(json['birthday']);
+    if (json['birthday'] != null && json['birthday'] is Timestamp) {
+      json['birthday'] = json['birthday'].toDate();
     }
 
-    if (json['created_at'] != null && json['created_at'] is int) {
-      json['created_at'] = DateTime.fromMillisecondsSinceEpoch(json['created_at']);
+    if (json['created_at'] != null && json['created_at'] is Timestamp) {
+      json['created_at'] = json['created_at'].toDate();
     }
 
-    if (json['updated_at'] != null && json['updated_at'] is int) {
-      json['updated_at'] = DateTime.fromMillisecondsSinceEpoch(json['updated_at']);
+    if (json['updated_at'] != null && json['updated_at'] is Timestamp) {
+      json['updated_at'] = json['updated_at'].toDate();
     }
 
     return Customer(
@@ -46,9 +47,9 @@ class Customer with QueryBuilder<Customer>, FastEquatable {
       'user_id': userId,
       'firstname': firstname,
       'lastname': lastname,
-      'birthday': birthday?.millisecondsSinceEpoch,
-      'created_at': createdAt?.millisecondsSinceEpoch,
-      'updated_at': updatedAt?.millisecondsSinceEpoch,
+      'birthday': Timestamp.fromDate(birthday!),
+      'created_at': Timestamp.fromDate(createdAt!),
+      'updated_at': Timestamp.fromDate(updatedAt!),
     };
   }
 

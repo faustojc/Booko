@@ -12,45 +12,36 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
   final MovieRepo movieRepo;
 
   MoviesBloc(this.movieRepo) : super(MoviesInitial()) {
-    on<MoviesFetchInitialData>(
-      (event, emit) async {
-        if (movieRepo.movies.isEmpty) {
-          emit(MoviesLoading(isFirstFetch: true));
-          try {
-            await movieRepo.fetchInitialData();
-            emit(MoviesLoaded(movieRepo.movies));
-          } catch (e) {
-            emit(MoviesError(e.toString()));
-          }
-        }
-      },
-      transformer: droppable(),
-    );
-
-    on<MoviesFetchMoreData>(
-      (event, emit) async {
-        emit(MoviesLoading(isFirstFetch: false));
+    on<MoviesFetchInitialData>((event, emit) async {
+      if (movieRepo.movies.isEmpty) {
+        emit(MoviesLoading(isFirstFetch: true));
         try {
-          await movieRepo.fetchMoreData();
-          emit(MoviesLoaded(movieRepo.movies));
+          await movieRepo.fetchInitialData();
+          emit(MoviesLoaded(movies: movieRepo.movies));
         } catch (e) {
           emit(MoviesError(e.toString()));
         }
-      },
-      transformer: droppable(),
-    );
+      }
+    }, transformer: droppable());
 
-    on<MoviesFetchLatestData>(
-      (event, emit) async {
-        emit(MoviesLoading(isFirstFetch: false));
-        try {
-          await movieRepo.fetchLatestData();
-          emit(MoviesLoaded(movieRepo.movies));
-        } catch (e) {
-          emit(MoviesError(e.toString()));
-        }
-      },
-      transformer: droppable(),
-    );
+    on<MoviesFetchMoreData>((event, emit) async {
+      emit(MoviesLoading(movies: movieRepo.movies, isFirstFetch: false));
+      try {
+        await movieRepo.fetchMoreData();
+        emit(MoviesLoaded(movies: movieRepo.movies));
+      } catch (e) {
+        emit(MoviesError(e.toString()));
+      }
+    }, transformer: droppable());
+
+    on<MoviesFetchLatestData>((event, emit) async {
+      emit(MoviesLoading(movies: movieRepo.movies, isFirstFetch: false));
+      try {
+        await movieRepo.fetchLatestData();
+        emit(MoviesLoaded(movies: movieRepo.movies));
+      } catch (e) {
+        emit(MoviesError(e.toString()));
+      }
+    }, transformer: droppable());
   }
 }
