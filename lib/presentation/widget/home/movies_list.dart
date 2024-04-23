@@ -70,7 +70,7 @@ class MovieList extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  mainAxisExtent: 360,
+                  mainAxisExtent: 350,
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 10,
                 ),
@@ -78,16 +78,12 @@ class MovieList extends StatelessWidget {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Flexible(
-                        child: Container(
-                          height: 300,
-                          decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
+                      SizedBox(
+                        height: 260,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(14),
                           child: FastCachedImage(
                             url: movies[index].posterUrl!,
-                            excludeFromSemantics: true,
                             fit: BoxFit.cover,
                             loadingBuilder: (context, progressData) {
                               return ShimmerPro.sized(
@@ -100,20 +96,31 @@ class MovieList extends StatelessWidget {
                           ),
                         ),
                       ),
-                      AutoSizeText(
-                        movies[index].title!,
-                        maxLines: 2,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
+                      const SizedBox(height: 10),
+                      Flexible(
+                        flex: 0,
+                        fit: FlexFit.tight,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            AutoSizeText(
+                              movies[index].title!,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              movies[index].genres.join(' / '),
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(fontSize: 12, color: ThemeColor.surfaceVariant),
+                            ),
+                          ],
                         ),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        movies[index].genres.join(' / '),
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 12, color: ThemeColor.surfaceVariant),
                       ),
                     ],
                   );
