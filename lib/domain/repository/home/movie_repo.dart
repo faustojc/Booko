@@ -3,19 +3,16 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 class MovieRepo {
   final List<Movie> movies = [];
+  late Movie currentMovie = Movie();
+
   final _storage = FirebaseStorage.instance;
   late Movie? _lastMovie;
-
-  Future<void> addMovie(Movie movie) async {
-    movies.insert(0, movie);
-  }
 
   Future<void> fetchInitialData() async {
     final data = await Movie().orderBy('updated_at', descending: true).limit(6).get();
 
     for (final movie in data) {
-      final url = await _storage.ref().child(movie.posterUrl!).getDownloadURL();
-      movie.posterUrl = url;
+      movie.posterUrl = await _storage.ref().child(movie.posterUrl!).getDownloadURL();
     }
 
     movies.addAll(data);
@@ -29,15 +26,14 @@ class MovieRepo {
     final data = await Movie()
         .where(
           'updated_at',
-          isLessThan: _lastMovie!.updatedAt!.toIso8601String(),
+          isLessThan: _lastMovie!.updatedAt!,
         )
         .orderBy('updated_at', descending: true)
         .limit(6)
         .get();
 
     for (final movie in data) {
-      final url = await _storage.ref().child(movie.posterUrl!).getDownloadURL();
-      movie.posterUrl = url;
+      movie.posterUrl = await _storage.ref().child(movie.posterUrl!).getDownloadURL();
     }
 
     movies.addAll(data);
@@ -49,8 +45,7 @@ class MovieRepo {
     final data = await Movie().orderBy('updated_at', descending: true).limit(6).get();
 
     for (final movie in data) {
-      final url = await _storage.ref().child(movie.posterUrl!).getDownloadURL();
-      movie.posterUrl = url;
+      movie.posterUrl = await _storage.ref().child(movie.posterUrl!).getDownloadURL();
     }
 
     movies.replaceRange(0, movies.length, data);

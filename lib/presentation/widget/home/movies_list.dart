@@ -1,6 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:booko/data/model/movie.dart';
+import 'package:booko/domain/repository/home/movie_repo.dart';
+import 'package:booko/domain/routes/route.dart';
 import 'package:booko/presentation/bloc/home/movies_bloc.dart';
+import 'package:booko/presentation/widget/shared/content_unavailable.dart';
 import 'package:booko/resources/colors/theme_colors.dart';
 import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -57,13 +60,13 @@ class MovieList extends StatelessWidget {
             if (isNowShowing) {
               return movie.updatedAt!.month == DateTime.now().month;
             } else {
-              return movie.updatedAt!.month > DateTime.now().month;
+              return movie.updatedAt!.month > DateTime.now().month && movie.updatedAt!.day > DateTime.now().day;
             }
           }).toList();
         }
 
         return (movies.isEmpty)
-            ? const SizedBox.shrink()
+            ? ContentUnavailable(message: (isNowShowing) ? "No current movies" : "No upcoming movies")
             : GridView.builder(
                 itemCount: state.movies.length,
                 shrinkWrap: true,
@@ -78,21 +81,27 @@ class MovieList extends StatelessWidget {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      SizedBox(
-                        height: 260,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(14),
-                          child: FastCachedImage(
-                            url: movies[index].posterUrl!,
-                            fit: BoxFit.cover,
-                            loadingBuilder: (context, progressData) {
-                              return ShimmerPro.sized(
-                                light: ShimmerProLight.darker,
-                                scaffoldBackgroundColor: ThemeColor.surface,
-                                height: 280,
-                                width: double.infinity,
-                              );
-                            },
+                      GestureDetector(
+                        onTap: () {
+                          RepositoryProvider.of<MovieRepo>(context).currentMovie = movies[index];
+                          Navigator.push(context, Routes.movie());
+                        },
+                        child: SizedBox(
+                          height: 260,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(14),
+                            child: FastCachedImage(
+                              url: movies[index].posterUrl!,
+                              fit: BoxFit.cover,
+                              loadingBuilder: (context, progressData) {
+                                return ShimmerPro.sized(
+                                  light: ShimmerProLight.darker,
+                                  scaffoldBackgroundColor: ThemeColor.surface,
+                                  height: 280,
+                                  width: double.infinity,
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),

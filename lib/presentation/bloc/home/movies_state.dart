@@ -1,6 +1,6 @@
 part of 'movies_bloc.dart';
 
-sealed class MoviesState<T> with FastEquatable {
+sealed class MoviesState with FastEquatable {
   late List<Movie> movies = [];
   late bool isFirstFetch = true;
 
