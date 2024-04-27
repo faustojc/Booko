@@ -3,9 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fast_equatable/fast_equatable.dart';
 
 class Movie with QueryBuilder<Movie>, FastEquatable {
+  String? id;
   String? title;
   String? description;
   String? producer;
+  String? cinemaName;
+  String? location;
   DateTime? releaseDate;
   String? posterUrl;
   num? price;
@@ -15,10 +18,13 @@ class Movie with QueryBuilder<Movie>, FastEquatable {
   DateTime? updatedAt;
 
   Movie({
+    this.id,
     this.title,
     this.description,
     this.producer,
     this.releaseDate,
+    this.cinemaName,
+    this.location,
     this.posterUrl,
     this.price,
     this.genres = const [],
@@ -45,10 +51,13 @@ class Movie with QueryBuilder<Movie>, FastEquatable {
     }
 
     return Movie(
+      id: json['id'],
       title: json['title'],
       description: json['description'],
       producer: json['producer'],
       releaseDate: json['release_date'],
+      cinemaName: json['cinema_name'],
+      location: json['location'],
       posterUrl: json['poster_url'],
       price: json['price'],
       genres: List<String>.from(json['genres']),
@@ -60,9 +69,12 @@ class Movie with QueryBuilder<Movie>, FastEquatable {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'title': title,
       'description': description,
       'producer': producer,
+      'cinema_name': cinemaName,
+      'location': location,
       'release_date': Timestamp.fromDate(releaseDate!),
       'poster_url': posterUrl,
       'price': price,
@@ -86,10 +98,13 @@ class Movie with QueryBuilder<Movie>, FastEquatable {
 
   @override
   List<Object?> get hashParameters => [
+        id,
         title,
         description,
         producer,
         releaseDate,
+        cinemaName,
+        location,
         posterUrl,
         price,
         genres,

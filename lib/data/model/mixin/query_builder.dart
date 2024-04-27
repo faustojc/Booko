@@ -202,6 +202,14 @@ mixin QueryBuilder<T> {
     }
 
     final snapshots = await query.get();
-    return snapshots.docs.map((doc) => fromJson(doc.data() as Map<String, dynamic>)).toList();
+
+    return snapshots.docs.map((doc) {
+      final Map<String, dynamic> data = {
+        'id': doc.id,
+        ...doc.data() as Map<String, dynamic>,
+      };
+
+      return fromJson(data);
+    }).toList();
   }
 }

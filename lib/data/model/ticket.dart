@@ -3,29 +3,31 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fast_equatable/fast_equatable.dart';
 
 class Ticket with QueryBuilder<Ticket>, FastEquatable {
+  String? id;
   String? userId;
   String? movieId;
   String? seatId;
   String? ticketNumber;
   String? movieTitle;
-  DateTime? startDateTime;
+  DateTime? schedule;
   DateTime? createdAt;
   DateTime? updatedAt;
 
   Ticket({
+    this.id,
     this.userId,
     this.movieId,
     this.seatId,
     this.ticketNumber,
     this.movieTitle,
-    this.startDateTime,
+    this.schedule,
     this.createdAt,
     this.updatedAt,
   });
 
   factory Ticket.fromJson(Map<String, dynamic> json) {
-    if (json['start_date_time'] != null && json['start_date_time'] is Timestamp) {
-      json['start_date_time'] = json['start_date_time'].toDate();
+    if (json['schedule'] != null && json['schedule'] is Timestamp) {
+      json['schedule'] = json['schedule'].toDate();
     }
 
     if (json['created_at'] != null && json['created_at'] is Timestamp) {
@@ -37,12 +39,13 @@ class Ticket with QueryBuilder<Ticket>, FastEquatable {
     }
 
     return Ticket(
+      id: json['id'],
       userId: json['user_id'],
       movieId: json['movie_id'],
       seatId: json['seat_id'],
       ticketNumber: json['ticket_number'],
       movieTitle: json['movie_title'],
-      startDateTime: json['start_date_time'],
+      schedule: json['schedule'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
     );
@@ -50,12 +53,13 @@ class Ticket with QueryBuilder<Ticket>, FastEquatable {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'user_id': userId,
       'movie_id': movieId,
       'seat_id': seatId,
       'ticket_number': ticketNumber,
       'movie_title': movieTitle,
-      'start_date_time': Timestamp.fromDate(startDateTime!),
+      'schedule': Timestamp.fromDate(schedule!),
       'created_at': Timestamp.fromDate(createdAt!),
       'updated_at': Timestamp.fromDate(updatedAt!),
     };
@@ -73,5 +77,14 @@ class Ticket with QueryBuilder<Ticket>, FastEquatable {
   bool get cacheHash => true;
 
   @override
-  List<Object?> get hashParameters => [userId, movieId, seatId, ticketNumber, createdAt, updatedAt];
+  List<Object?> get hashParameters => [
+        id,
+        userId,
+        movieId,
+        seatId,
+        ticketNumber,
+        schedule,
+        createdAt,
+        updatedAt,
+      ];
 }

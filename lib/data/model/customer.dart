@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fast_equatable/fast_equatable.dart';
 
 class Customer with QueryBuilder<Customer>, FastEquatable {
+  String? id;
   String? userId;
   String? firstname;
   String? lastname;
@@ -11,6 +12,7 @@ class Customer with QueryBuilder<Customer>, FastEquatable {
   DateTime? updatedAt;
 
   Customer({
+    this.id,
     this.userId,
     this.firstname,
     this.lastname,
@@ -33,6 +35,7 @@ class Customer with QueryBuilder<Customer>, FastEquatable {
     }
 
     return Customer(
+      id: json['id'],
       userId: json['user_id'],
       firstname: json['firstname'],
       lastname: json['lastname'],
@@ -44,6 +47,7 @@ class Customer with QueryBuilder<Customer>, FastEquatable {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'user_id': userId,
       'firstname': firstname,
       'lastname': lastname,
@@ -65,5 +69,13 @@ class Customer with QueryBuilder<Customer>, FastEquatable {
   bool get cacheHash => true;
 
   @override
-  List<Object?> get hashParameters => [userId, firstname, lastname, birthday, createdAt, updatedAt];
+  List<Object?> get hashParameters => [
+        id,
+        userId,
+        firstname,
+        lastname,
+        birthday,
+        createdAt,
+        updatedAt,
+      ];
 }
