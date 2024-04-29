@@ -22,7 +22,10 @@ class _RegisterBirthdayInputState extends State<RegisterBirthdayInput> {
 
   @override
   Widget build(BuildContext context) {
+    final registerCubit = context.read<RegisterCubit>();
+
     return BlocBuilder<RegisterCubit, RegisterState>(
+      bloc: registerCubit,
       builder: (context, state) {
         return TextFormField(
           controller: _controller,
@@ -33,7 +36,8 @@ class _RegisterBirthdayInputState extends State<RegisterBirthdayInput> {
               context: context,
               firstDate: DateTime(1900),
               lastDate: DateTime.now(),
-              currentDate: state.birthday ?? DateTime.now(),
+              initialDate: (state is RegisterInputChanged) ? registerCubit.data.birthday ?? DateTime.now() : DateTime.now(),
+              currentDate: (state is RegisterInputChanged) ? registerCubit.data.birthday ?? DateTime.now() : DateTime.now(),
               builder: (context, child) {
                 return Theme(
                   data: Theme.of(context).copyWith(
@@ -53,17 +57,17 @@ class _RegisterBirthdayInputState extends State<RegisterBirthdayInput> {
               }
             });
           },
+          validator: (value) => (value!.isEmpty) ? "Please select your birthday" : null,
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          decoration: InputDecoration(
-            prefixIcon: const Icon(Icons.calendar_month, color: ThemeColor.surfaceVariant),
+          decoration: const InputDecoration(
+            prefixIcon: Icon(Icons.calendar_month, color: ThemeColor.surfaceVariant),
             hintText: 'Enter your birthday',
-            hintStyle: const TextStyle(color: ThemeColor.surfaceVariant),
-            errorText: (_controller.text.isEmpty) ? "Please select your birthday" : null,
-            enabledBorder: const OutlineInputBorder(
+            hintStyle: TextStyle(color: ThemeColor.surfaceVariant),
+            enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(14)),
               borderSide: BorderSide(color: Colors.white, width: 2.5),
             ),
-            border: const OutlineInputBorder(
+            border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(14)),
               borderSide: BorderSide(width: 2.5),
             ),
