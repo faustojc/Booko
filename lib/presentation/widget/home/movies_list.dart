@@ -58,9 +58,9 @@ class MovieList extends StatelessWidget {
         if (movies.isNotEmpty) {
           movies = state.movies.where((movie) {
             if (isNowShowing) {
-              return movie.updatedAt!.month == DateTime.now().month;
+              return movie.schedules.every((schedule) => schedule.month == DateTime.now().month);
             } else {
-              return movie.updatedAt!.month > DateTime.now().month && movie.updatedAt!.day > DateTime.now().day;
+              return movie.schedules.every((schedule) => schedule.month > DateTime.now().month && schedule.day > DateTime.now().day);
             }
           }).toList();
         }

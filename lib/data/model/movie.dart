@@ -6,7 +6,6 @@ class Movie with QueryBuilder<Movie>, FastEquatable {
   String? id;
   String? title;
   String? description;
-  String? producer;
   String? cinemaName;
   String? location;
   DateTime? releaseDate;
@@ -21,7 +20,6 @@ class Movie with QueryBuilder<Movie>, FastEquatable {
     this.id,
     this.title,
     this.description,
-    this.producer,
     this.releaseDate,
     this.cinemaName,
     this.location,
@@ -54,7 +52,6 @@ class Movie with QueryBuilder<Movie>, FastEquatable {
       id: json['id'],
       title: json['title'],
       description: json['description'],
-      producer: json['producer'],
       releaseDate: json['release_date'],
       cinemaName: json['cinema_name'],
       location: json['location'],
@@ -72,7 +69,6 @@ class Movie with QueryBuilder<Movie>, FastEquatable {
       'id': id,
       'title': title,
       'description': description,
-      'producer': producer,
       'cinema_name': cinemaName,
       'location': location,
       'release_date': Timestamp.fromDate(releaseDate!),
@@ -101,7 +97,6 @@ class Movie with QueryBuilder<Movie>, FastEquatable {
         id,
         title,
         description,
-        producer,
         releaseDate,
         cinemaName,
         location,
