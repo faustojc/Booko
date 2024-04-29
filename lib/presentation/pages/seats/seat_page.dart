@@ -53,6 +53,8 @@ class SeatPage extends HookWidget {
                 Center(child: DateInput()),
                 SizedBox(height: 30),
                 LocationText(),
+
+                // TODO: Put Seat layout here
               ],
             ),
           ),
