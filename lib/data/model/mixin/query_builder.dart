@@ -39,7 +39,7 @@ mixin QueryBuilder<T> {
       throw Exception('Update operation only supports equality checks');
     }
 
-    data['updated_at'] = DateTime.now().toIso8601String();
+    data['updated_at'] = Timestamp.now();
 
     await _firestore.collection(this.collectionName).doc(clause['value']).update(data);
   }
@@ -55,11 +55,11 @@ mixin QueryBuilder<T> {
   /// newly inserted document.
   Future<DocumentReference<Map<String, dynamic>>> insert(Map<String, dynamic> data) async {
     if (data['created_at'] == null) {
-      data['created_at'] = DateTime.now().toIso8601String();
+      data['created_at'] = Timestamp.now();
     }
 
     if (data['updated_at'] == null) {
-      data['updated_at'] = DateTime.now().toIso8601String();
+      data['updated_at'] = Timestamp.now();
     }
 
     return await _firestore.collection(this.collectionName).add(data);

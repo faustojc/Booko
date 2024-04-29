@@ -22,7 +22,10 @@ class RegisterButton extends StatelessWidget {
               backgroundColor: MaterialStateProperty.all(ThemeColor.primary),
               shape: MaterialStateProperty.all(const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(14)))),
             ),
-            child: const CircularProgressIndicator(color: ThemeColor.white),
+            child: const Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: CircularProgressIndicator(color: ThemeColor.white),
+            ),
           );
         } else {
           return ElevatedButton(
