@@ -9,44 +9,47 @@ class SeatButtons extends StatelessWidget {
       height: 200,
       child: GridView.builder(
         itemCount: 42,
-        gridDelegate:
-            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 1, mainAxisSpacing: 0),
         itemBuilder: (BuildContext context, int index) {
-          return Center(
-            child: Row(
-              children: [
-                Icon(
-                  Icons.square_outlined,
-                  size: 40,
-                  color: Theme.of(context).colorScheme.outline,
-                ),
-                Icon(
-                  Icons.square_outlined,
-                  size: 40,
-                  color: Theme.of(context).colorScheme.outline,
-                ),
-                Icon(
-                  Icons.square_outlined,
-                  size: 40,
-                  color: Theme.of(context).colorScheme.outline,
-                ),
-                SizedBox(width: 50),
-                Icon(
-                  Icons.square_outlined,
-                  size: 40,
-                  color: Theme.of(context).colorScheme.outline,
-                ),
-                Icon(
-                  Icons.square_outlined,
-                  size: 40,
-                  color: Theme.of(context).colorScheme.outline,
-                ),
-                Icon(
-                  Icons.square_outlined,
-                  size: 40,
-                  color: Theme.of(context).colorScheme.outline,
-                ),
-              ],
+          return SizedBox(
+            height: 20,
+            child: Center(
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.square_outlined,
+                    size: 40,
+                    color: Theme.of(context).colorScheme.outline,
+                  ),
+                  Icon(
+                    Icons.square_outlined,
+                    size: 40,
+                    color: Theme.of(context).colorScheme.outline,
+                  ),
+                  Icon(
+                    Icons.square_outlined,
+                    size: 40,
+                    color: Theme.of(context).colorScheme.outline,
+                  ),
+                  const SizedBox(width: 50),
+                  Icon(
+                    Icons.square_outlined,
+                    size: 40,
+                    color: Theme.of(context).colorScheme.outline,
+                  ),
+                  Icon(
+                    Icons.square_outlined,
+                    size: 40,
+                    color: Theme.of(context).colorScheme.outline,
+                  ),
+                  Icon(
+                    Icons.square_outlined,
+                    size: 40,
+                    color: Theme.of(context).colorScheme.outline,
+                  ),
+                ],
+              ),
             ),
           );
         },
