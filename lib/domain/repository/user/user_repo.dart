@@ -1,6 +1,7 @@
 import 'package:booko/data/model/customer.dart';
 import 'package:booko/data/model/ticket.dart';
 import 'package:booko/domain/repository/auth/auth_repo.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserRepo {
   final AuthRepo _authRepo;
@@ -19,17 +20,24 @@ class UserRepo {
     }
   }
 
-  Future<void> createCustomer({required String firstname, required String lastname, required String birthday}) async {
-    await Customer().insert({'firstname': firstname, 'lastname': lastname, 'birthday': birthday, 'user_id': _authRepo.currentUser!.uid});
-
+  Future<void> createCustomer({required String firstname, required String lastname, required DateTime birthday}) async {
     final json = {
       'user_id': _authRepo.currentUser!.uid,
       'firstname': firstname,
       'lastname': lastname,
-      'birthday': birthday,
-      'created_at': DateTime.now(),
-      'updated_at': DateTime.now(),
+      'birthday': Timestamp.fromDate(birthday),
+      'created_at': Timestamp.now(),
+      'updated_at': Timestamp.now(),
     };
+
+    final data = await Customer().insert({
+      'user_id': json['user_id'],
+      'firstname': json['firstname'],
+      'lastname': json['lastname'],
+      'birthday': json['birthday'],
+    });
+
+    json.addAll({'id': data.id});
 
     customer = Customer.fromJson(json);
   }
