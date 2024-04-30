@@ -5,12 +5,14 @@ class SeatRepo {
   final Movie movie;
   final Set<Seat> seats = {};
   final Set<int> selectedSeats = {};
-  late DateTime? selectedDate;
+  late DateTime? selectedSchedule;
 
   late int quantity = 0;
   late double totalPrice = 0.0;
 
-  SeatRepo({required this.movie});
+  SeatRepo({required this.movie}) {
+    selectedSchedule = null;
+  }
 
   Future<void> getSeatsData() async {
     seats.addAll(await Seat().where('movie_id', isEqualTo: movie.id).get());
@@ -18,7 +20,7 @@ class SeatRepo {
 
   void setInputData({DateTime? schedule, int? seatNumber}) {
     if (schedule != null) {
-      selectedDate = schedule;
+      selectedSchedule = schedule;
     }
 
     if (seatNumber != null) {
@@ -29,7 +31,7 @@ class SeatRepo {
         selectedSeats.add(seatNumber);
       }
     }
-    
+
     quantity = selectedSeats.length;
     totalPrice = quantity * movie.price!.toDouble();
   }

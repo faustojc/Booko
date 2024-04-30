@@ -16,11 +16,17 @@ class BuyTicketButton extends StatelessWidget {
         if (state is SeatLoading) {
           return ElevatedButton(
               onPressed: () {},
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(ThemeColor.primary),
+                shape: MaterialStateProperty.all(const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(14)),
+                )),
+              ),
               child: const Padding(
                 padding: EdgeInsets.symmetric(vertical: 12),
                 child: CircularProgressIndicator(color: ThemeColor.white),
               ));
-        } else if (seatCubit.seatRepo.selectedSeats.isEmpty) {
+        } else if (seatCubit.seatRepo.selectedSchedule == null || seatCubit.seatRepo.selectedSeats.isEmpty) {
           return ElevatedButton(
             onPressed: () {},
             style: ButtonStyle(
@@ -37,7 +43,9 @@ class BuyTicketButton extends StatelessWidget {
         }
 
         return ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            // TODO: Display the ticket with generated QR code
+          },
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(ThemeColor.primary),
             shape: MaterialStateProperty.all(const RoundedRectangleBorder(
