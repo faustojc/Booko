@@ -30,7 +30,7 @@ import 'package:fast_equatable/fast_equatable.dart';
 class Seat with QueryBuilder<Seat>, FastEquatable {
   String? id;
   String? movieId;
-  String? seatNumber;
+  int? seatNumber;
   bool occupied = false;
   DateTime? createdAt;
   DateTime? updatedAt;

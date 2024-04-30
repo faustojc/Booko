@@ -1,22 +1,29 @@
-import 'package:booko/data/local/seat_data.dart';
+import 'package:booko/domain/repository/seat/seat_repo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'seat_state.dart';
 
 class SeatCubit extends Cubit<SeatState> {
-  late SeatData seatData = SeatData();
+  final SeatRepo seatRepo;
 
-  SeatCubit() : super(SeatInitial());
+  SeatCubit(this.seatRepo) : super(SeatInitial());
 
-  void onInputChanged({DateTime? schedule, String? seatNumber}) {
+  Future<void> onFetchData() async {
+    emit(SeatLoading());
+
+    try {
+      await seatRepo.getSeatsData();
+      emit(SeatLoaded());
+    } catch (e) {
+      emit(SeatError(e.toString()));
+    }
+  }
+
+  void onInputChanged({DateTime? schedule, int? seatNumber}) {
     emit(SeatInputChanged());
 
-    seatData = seatData.copyWith(
-      schedule: schedule,
-      seatNumbers: seatNumber == null ? seatData.seatNumbers : [...?seatData.seatNumbers, seatNumber],
-      occupied: true,
-    );
+    seatRepo.setInputData(schedule: schedule, seatNumber: seatNumber);
   }
 
   void onBuyTicket() {
