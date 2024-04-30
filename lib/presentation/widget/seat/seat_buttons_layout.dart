@@ -6,52 +6,30 @@ class SeatButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 200,
+      height: 450,
       child: GridView.builder(
-        itemCount: 42,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: 64,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 1, mainAxisSpacing: 0),
+          crossAxisCount: 8,
+        ),
         itemBuilder: (BuildContext context, int index) {
-          return SizedBox(
-            height: 20,
-            child: Center(
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.square_outlined,
-                    size: 40,
-                    color: Theme.of(context).colorScheme.outline,
-                  ),
-                  Icon(
-                    Icons.square_outlined,
-                    size: 40,
-                    color: Theme.of(context).colorScheme.outline,
-                  ),
-                  Icon(
-                    Icons.square_outlined,
-                    size: 40,
-                    color: Theme.of(context).colorScheme.outline,
-                  ),
-                  const SizedBox(width: 50),
-                  Icon(
-                    Icons.square_outlined,
-                    size: 40,
-                    color: Theme.of(context).colorScheme.outline,
-                  ),
-                  Icon(
-                    Icons.square_outlined,
-                    size: 40,
-                    color: Theme.of(context).colorScheme.outline,
-                  ),
-                  Icon(
-                    Icons.square_outlined,
-                    size: 40,
-                    color: Theme.of(context).colorScheme.outline,
-                  ),
-                ],
-              ),
-            ),
-          );
+          if (index % 8 == 3 || index % 8 == 4) {
+            //for middle space
+            return const SizedBox(width: 0);
+          } else if (index == 0 || index == 7) {
+            //for first and last squares of first row
+            return const SizedBox(width: 0);
+          } else if (index / 8 >= 3 && index / 8 < 4) {
+            //for vertical gap
+            return const SizedBox(width: 0);
+          } else {
+            return Icon(
+              Icons.crop_square,
+              size: 55,
+              color: Theme.of(context).colorScheme.outline,
+            );
+          }
         },
       ),
     );

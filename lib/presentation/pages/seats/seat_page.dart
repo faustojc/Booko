@@ -114,7 +114,7 @@ class SeatPage extends HookWidget {
                   size: 50,
                 ),
                 const SizedBox(height: 20),
-                SeatButtons()
+                const SeatButtons()
                 // TODO: Put Seat layout here
               ],
             ),
