@@ -37,6 +37,7 @@ class StartupPage extends StatelessWidget {
     if (context.mounted) {
       precacheImage(const AssetImage('assets/images/logo/logo-color-with-name.png'), context);
       precacheImage(const AssetImage('assets/images/logo/logo-color.png'), context);
+      precacheImage(const AssetImage('assets/images/misc/theater-icon.png'), context);
     }
   }
 }

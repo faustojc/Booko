@@ -1,26 +1,25 @@
-import 'package:fast_equatable/fast_equatable.dart';
+import 'package:booko/data/local/seat_data.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'seat_state.dart';
 
 class SeatCubit extends Cubit<SeatState> {
+  late SeatData seatData = SeatData();
+
   SeatCubit() : super(SeatInitial());
 
-  void onInputChanged({DateTime? date, DateTime? time, String? seatNumber}) {
-    if (state is! SeatOnInput) {
-      emit(SeatOnInput(
-        date: date,
-        time: time,
-        seatNumbers: seatNumber == null ? [] : [seatNumber],
-      ));
-    } else {
-      final state = this.state as SeatOnInput;
+  void onInputChanged({DateTime? schedule, String? seatNumber}) {
+    emit(SeatInputChanged());
 
-      emit(state.copyWith(
-        date: date,
-        time: time,
-        seatNumbers: seatNumber == null ? state.seatNumbers : [...?state.seatNumbers, seatNumber],
-      ));
-    }
+    seatData = seatData.copyWith(
+      schedule: schedule,
+      seatNumbers: seatNumber == null ? seatData.seatNumbers : [...?seatData.seatNumbers, seatNumber],
+      occupied: true,
+    );
+  }
+
+  void onBuyTicket() {
+    emit(SeatTicketBought());
   }
 }
