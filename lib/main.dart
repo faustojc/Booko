@@ -2,7 +2,7 @@ import 'package:booko/domain/repository/auth/auth_repo.dart';
 import 'package:booko/domain/repository/home/movie_repo.dart';
 import 'package:booko/domain/repository/user/user_repo.dart';
 import 'package:booko/presentation/bloc/app/app_bloc.dart';
-import 'package:booko/presentation/pages/startup/startup_page.dart';
+import 'package:booko/presentation/pages/startup_page.dart';
 import 'package:booko/resources/colors/theme_colors.dart';
 import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:firebase_core/firebase_core.dart';

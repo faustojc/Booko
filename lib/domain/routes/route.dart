@@ -1,8 +1,8 @@
-import 'package:booko/presentation/pages/home/home_page.dart';
-import 'package:booko/presentation/pages/login/login_page.dart';
-import 'package:booko/presentation/pages/movie/movie_page.dart';
-import 'package:booko/presentation/pages/register/register_page.dart';
-import 'package:booko/presentation/pages/seats/seat_page.dart';
+import 'package:booko/presentation/pages/home_page.dart';
+import 'package:booko/presentation/pages/login_page.dart';
+import 'package:booko/presentation/pages/movie_page.dart';
+import 'package:booko/presentation/pages/register_page.dart';
+import 'package:booko/presentation/pages/seat_page.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
