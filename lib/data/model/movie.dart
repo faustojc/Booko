@@ -2,6 +2,34 @@ import 'package:booko/data/model/mixin/query_builder.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fast_equatable/fast_equatable.dart';
 
+/// Represents a movie entity in the system.
+///
+/// The `Movie` class stores information about a movie, such as its title, description,
+/// cinema name, location, release date, poster URL, price, genres, schedules, and timestamps.
+/// It provides methods for converting the movie object to and from JSON format.
+///
+/// This class is used to manage movie data within the application, such as displaying movie details,
+/// adding new movies, updating existing movie information, and retrieving movie data from the database.
+///
+/// Example of creating a `Movie` object:
+/// ```dart
+/// final movie = Movie(
+///   title: 'Inception',
+///   description: 'A mind-bending action thriller',
+///   cinemaName: 'Cineplex',
+///   location: 'New York',
+///   releaseDate: DateTime(2010, 7, 16),
+///   posterUrl: 'https://example.com/poster.jpg',
+///   price: 10.99,
+///   genres: ['Action', 'Sci-Fi', 'Thriller'],
+///   schedules: [DateTime(2022, 9, 1, 18, 0), DateTime(2022, 9, 1, 21, 0)],
+///   createdAt: DateTime.now(),
+///   updatedAt: DateTime.now(),
+/// );
+/// ```
+///
+/// The `Movie` class is a core model used throughout the application to manage movie-related data
+/// and facilitate interactions with movie information in various parts of the system.
 class Movie with QueryBuilder<Movie>, FastEquatable {
   String? id;
   String? title;
@@ -64,6 +92,29 @@ class Movie with QueryBuilder<Movie>, FastEquatable {
     );
   }
 
+  /// Converts the `Movie` object to a JSON map.
+  ///
+  /// Returns a map containing the movie's ID, title, description, cinema name, location, release date, poster URL,
+  /// price, genres, schedules, creation timestamp, and update timestamp.
+  ///
+  /// Example:
+  /// ```dart
+  /// final movie = Movie(
+  ///   id: '123',
+  ///   title: 'Inception',
+  ///   description: 'A mind-bending action thriller',
+  ///   cinemaName: 'Cineplex',
+  ///   location: 'New York',
+  ///   releaseDate: DateTime(2010, 7, 16),
+  ///   posterUrl: 'https://example.com/poster.jpg',
+  ///   price: 10.99,
+  ///   genres: ['Action', 'Sci-Fi', 'Thriller'],
+  ///   schedules: [DateTime(2022, 9, 1, 18, 0), DateTime(2022, 9, 1, 21, 0)],
+  ///   createdAt: DateTime.now(),
+  ///   updatedAt: DateTime.now(),
+  /// );
+  /// final json = movie.toJson();
+  /// ```
   Map<String, dynamic> toJson() {
     return {
       'id': id,

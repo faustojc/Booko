@@ -10,6 +10,7 @@ class LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
+      buildWhen: (prev, curr) => curr is LoginLoading || curr is LoginSuccess || curr is LoginFailure,
       builder: (context, state) {
         if (state is LoginLoading) {
           return ElevatedButton(

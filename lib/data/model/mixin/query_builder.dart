@@ -1,5 +1,71 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+/// The `QueryBuilder<T>` mixin class is a powerful utility for building and executing
+/// queries against a Firestore collection, providing an easy-to-use and flexible
+/// interface for constructing complex queries with various filtering, ordering,
+/// and pagination options.
+///
+/// This mixin is designed to be included in model classes that represent entities
+/// stored in a Firestore collection. By implementing the `fromJson` method and
+/// providing the `collectionName` getter, the `QueryBuilder` can seamlessly map
+/// retrieved documents to instances of the inheriting class.
+///
+/// The `QueryBuilder` leverages the Firebase Firestore SDK to interact with Firestore
+/// collections, allowing you to perform various operations such as querying, inserting,
+/// updating, and deleting documents.
+///
+/// To use the `QueryBuilder`, you need to create a class that represents your model
+/// or entity, include the `QueryBuilder<T>` mixin, and implement the required
+/// `fromJson` method and `collectionName` getter. Once you have your model class set up,
+/// you can use the provided methods to construct and execute queries, as well as
+/// perform CRUD operations on the Firestore collection.
+///
+/// Example usage:
+///
+/// ```dart
+/// class Customer with QueryBuilder<Customer> {
+///   final String id;
+///   final String name;
+///   final String email;
+///
+///   Customer({
+///     required this.id,
+///     required this.name,
+///     required this.email,
+///   });
+///
+///   @override
+///   Customer fromJson(Map<String, dynamic> json) {
+///     return Customer(
+///       id: json['id'],
+///       name: json['name'],
+///       email: json['email'],
+///     );
+///   }
+///
+///   @override
+///   String get collectionName => 'customers';
+/// }
+///
+/// // Querying customers
+/// Future<List<Customer>> getCustomers() async {
+///   return await Customer().where('isActive', isEqualTo: true).get();
+/// }
+///
+/// // Inserting a new customer
+/// Future<void> addCustomer(String name, String email) async {
+///   await Customer().insert({
+///     'name': name,
+///     'email': email,
+///     'isActive': true,
+///   });
+/// }
+/// ```
+///
+/// In the example above, the `Customer` class includes the `QueryBuilder` mixin and
+/// implements the required methods. The `getCustomers` function queries the Firestore
+/// collection for active customers, while the `addCustomer` function inserts a new
+/// customer document into the collection.
 mixin QueryBuilder<T> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final List<Map<String, dynamic>> _whereClauses = [];

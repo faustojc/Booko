@@ -2,6 +2,24 @@ import 'package:booko/data/model/mixin/query_builder.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fast_equatable/fast_equatable.dart';
 
+/// Represents a customer in the system.
+///
+/// The `Customer` class is responsible for storing information about a customer,
+/// such as their ID, user ID, first name, last name, birthday, and timestamps. It provides methods for converting the customer object
+/// to and from JSON format.
+///
+/// Example:
+/// ```dart
+/// final customer = Customer(
+///   id: '123',
+///   userId: '456',
+///   firstname: 'John',
+///   lastname: 'Doe',
+///   birthday: DateTime(1990, 1, 1),
+///   createdAt: DateTime.now(),
+///   updatedAt: DateTime.now(),
+/// );
+/// ```
 class Customer with QueryBuilder<Customer>, FastEquatable {
   String? id;
   String? userId;
@@ -45,6 +63,23 @@ class Customer with QueryBuilder<Customer>, FastEquatable {
     );
   }
 
+  /// Converts the `Customer` object to a JSON map.
+  ///
+  /// Returns a map containing the customer's ID, user ID, first name, last name, birthday, creation timestamp, and update timestamp.
+  ///
+  /// Example:
+  /// ```dart
+  /// final customer = Customer(
+  ///   id: '123',
+  ///   userId: '456',
+  ///   firstname: 'John',
+  ///   lastname: 'Doe',
+  ///   birthday: DateTime(1990, 1, 1),
+  ///   createdAt: DateTime.now(),
+  ///   updatedAt: DateTime.now(),
+  /// );
+  /// final json = customer.toJson();
+  /// ```
   Map<String, dynamic> toJson() {
     return {
       'id': id,
