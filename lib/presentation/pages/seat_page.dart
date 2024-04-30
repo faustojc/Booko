@@ -15,8 +15,6 @@ class SeatPage extends HookWidget {
   Widget build(BuildContext context) {
     final movie = RepositoryProvider.of<MovieRepo>(context).currentMovie;
     final quantity = useState<int>(0);
-    final totalPrice = useState<double>(0.0);
-    final loading = useState<bool>(false);
 
     return Padding(
       padding: const EdgeInsets.only(
@@ -46,13 +44,43 @@ class SeatPage extends HookWidget {
             ),
             centerTitle: true,
           ),
-          body: const SingleChildScrollView(
-            padding: EdgeInsets.only(top: 40),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.only(top: 40),
             child: Column(
               children: [
-                Center(child: DateInput()),
-                SizedBox(height: 30),
-                LocationText(),
+                const Center(child: DateInput()),
+                const SizedBox(height: 30),
+                const LocationText(),
+                const SizedBox(height: 30),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 40),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(children: [
+                        Icon(Icons.crop_square_rounded, color: ThemeColor.surfaceVariant, size: 40),
+                        SizedBox(height: 10),
+                        Text('Empty', style: TextStyle(color: ThemeColor.surfaceVariant, fontSize: 12)),
+                      ]),
+                      Column(children: [
+                        Icon(Icons.square_rounded, color: ThemeColor.primary, size: 40),
+                        SizedBox(height: 10),
+                        Text('Selected', style: TextStyle(color: ThemeColor.primary, fontSize: 12)),
+                      ]),
+                      Column(children: [
+                        Icon(Icons.square_rounded, color: Colors.white, size: 40),
+                        SizedBox(height: 10),
+                        Text('Occupied', style: TextStyle(color: Colors.white, fontSize: 12)),
+                      ]),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 30),
+                Image.asset(
+                  "assets/images/misc/theater-icon.png",
+                  fit: BoxFit.contain,
+                ),
+                const SizedBox(height: 30),
 
                 // TODO: Put Seat layout here
               ],

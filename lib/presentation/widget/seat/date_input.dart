@@ -39,7 +39,7 @@ class DateInput extends HookWidget {
         );
       }).toList(),
       onSelected: (value) {
-        seatCubit.onInputChanged(date: value);
+        seatCubit.onInputChanged(schedule: value);
       },
       textStyle: const TextStyle(color: Colors.white),
       menuStyle: const MenuStyle(
