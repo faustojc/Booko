@@ -1,7 +1,4 @@
-import 'package:booko/presentation/bloc/auth/register/register_cubit.dart';
-import 'package:booko/resources/colors/theme_colors.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+part of 'package:booko/presentation/widget/register/register_form.dart';
 
 class RegisterFirstnameInput extends StatelessWidget {
   const RegisterFirstnameInput({super.key});
