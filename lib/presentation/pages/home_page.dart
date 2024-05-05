@@ -1,5 +1,6 @@
 import 'package:booko/domain/repository/home/movie_repo.dart';
 import 'package:booko/domain/repository/user/user_repo.dart';
+import 'package:booko/domain/routes/route.dart';
 import 'package:booko/presentation/bloc/home/movies_bloc.dart';
 import 'package:booko/presentation/widget/home/home_view.dart';
 import 'package:booko/resources/colors/theme_colors.dart';
@@ -55,7 +56,7 @@ class HomePage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: GestureDetector(
-                        onTap: () {},
+                        onTap: () => Navigator.push(context, Routes.settings()),
                         child: CircleAvatar(
                           backgroundColor: ThemeColor.primary,
                           child: Text(initials, style: const TextStyle(color: ThemeColor.white)),
