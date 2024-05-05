@@ -38,6 +38,8 @@ class StartupPage extends StatelessWidget {
       precacheImage(const AssetImage('assets/images/logo/logo-color-with-name.png'), context);
       precacheImage(const AssetImage('assets/images/logo/logo-color.png'), context);
       precacheImage(const AssetImage('assets/images/misc/theater-icon.png'), context);
+      precacheImage(const AssetImage('assets/images/content/no-movies.png'), context);
+      precacheImage(const AssetImage('assets/images/content/buy-ticket.png'), context);
     }
   }
 }
