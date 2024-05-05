@@ -35,4 +35,8 @@ class SeatRepo {
     quantity = selectedSeats.length;
     totalPrice = quantity * movie.price!.toDouble();
   }
+
+  Future<void> buyTicket() async {
+    // TODO: save to database
+  }
 }

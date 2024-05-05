@@ -16,7 +16,6 @@ class QuantityText extends StatelessWidget {
               fontSize: 16,
               fontWeight: FontWeight.w500,
             )),
-        const SizedBox(width: 10),
         BlocBuilder<SeatCubit, SeatState>(
           buildWhen: (previous, current) => current is SeatInputChanged,
           builder: (context, state) {

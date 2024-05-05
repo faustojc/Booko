@@ -27,6 +27,24 @@ class SeatCubit extends Cubit<SeatState> {
   }
 
   void onBuyTicket() {
-    emit(SeatTicketBought());
+    Set<String> seats = seatRepo.selectedSeats.map((e) => e.toString()).toSet();
+
+    /// Format:
+    /// List<String> data = [
+    ///   schedule (from DateTime),
+    ///   seats (from int),
+    ///   price
+    /// ]
+    List<String> data = [];
+
+    for (String seat in seats) {
+      data.add([
+        seatRepo.selectedSchedule!.toIso8601String(),
+        seat,
+        seatRepo.movie.price.toString(),
+      ].join('/'));
+    }
+
+    emit(SeatTicketBought(data: data));
   }
 }

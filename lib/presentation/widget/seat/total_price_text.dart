@@ -12,7 +12,7 @@ class TotalPriceText extends StatelessWidget {
       child: Row(
         children: [
           const Text(
-            'Total Price: P ',
+            'Total Price: ₱ ',
             style: TextStyle(
               color: Colors.white,
               fontSize: 16,

@@ -66,7 +66,10 @@ class MovieList extends StatelessWidget {
         }
 
         return (movies.isEmpty)
-            ? ContentUnavailable(message: (isNowShowing) ? "No current movies" : "No upcoming movies")
+            ? ContentUnavailable(
+                message: (isNowShowing) ? "No current movies" : "No upcoming movies",
+                imagePath: "assets/images/content/no-movies.png",
+              )
             : GridView.builder(
                 itemCount: movies.length,
                 shrinkWrap: true,

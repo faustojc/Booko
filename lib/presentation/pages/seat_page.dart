@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:booko/domain/repository/home/movie_repo.dart';
 import 'package:booko/domain/repository/seat/seat_repo.dart';
+import 'package:booko/domain/routes/route.dart';
 import 'package:booko/presentation/bloc/seat/seat_cubit.dart';
 import 'package:booko/resources/colors/theme_colors.dart';
 import 'package:fast_cached_network_image/fast_cached_network_image.dart';
@@ -69,6 +70,7 @@ class SeatPage extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
+                                  const SizedBox(height: 10),
                                   Center(
                                     child: FastCachedImage(
                                       url: seatCubit.seatRepo.movie.posterUrl!,
@@ -83,15 +85,18 @@ class SeatPage extends StatelessWidget {
                                       },
                                     ),
                                   ),
+                                  const SizedBox(height: 10),
                                   Text(
                                     seatCubit.seatRepo.movie.title!,
                                     maxLines: 2,
+                                    textAlign: TextAlign.center,
                                     style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                                   ),
+                                  const SizedBox(height: 10),
                                   Text("Date: ${DateFormat.yMMMMd().format(seatCubit.seatRepo.selectedSchedule!)}"),
                                   Text("Time: ${TimeOfDay.fromDateTime(seatCubit.seatRepo.selectedSchedule!).format(context)}"),
                                   Text("Quantity: ${seatCubit.seatRepo.quantity}"),
-                                  Text("Total Price: Php ${seatCubit.seatRepo.totalPrice}"),
+                                  Text("Total Price: ₱ ${seatCubit.seatRepo.totalPrice}"),
                                 ],
                               ),
                               actions: [
@@ -109,7 +114,10 @@ class SeatPage extends StatelessWidget {
                                       style: TextStyle(color: Colors.black),
                                     )),
                                 ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      Navigator.push(context, Routes.qrCode(data: state.data));
+                                    },
                                     style: ButtonStyle(
                                       backgroundColor: MaterialStateProperty.all(ThemeColor.primary),
                                       shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
