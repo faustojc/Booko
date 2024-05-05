@@ -54,6 +54,7 @@ dependencies:
   fast_cached_network_image: ^1.2.9
   path_provider: ^2.1.3
   flutter_hooks: ^0.20.5
+  qr_flutter: ^4.1.0
 
 dev_dependencies:
   flutter_test:
