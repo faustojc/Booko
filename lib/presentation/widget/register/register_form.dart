@@ -1,14 +1,19 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:booko/domain/routes/route.dart';
-import 'package:booko/presentation/widget/register/register_birthday_input.dart';
-import 'package:booko/presentation/widget/register/register_button.dart';
-import 'package:booko/presentation/widget/register/register_confirm_password_input.dart';
-import 'package:booko/presentation/widget/register/register_email_input.dart';
-import 'package:booko/presentation/widget/register/register_firstname_input.dart';
-import 'package:booko/presentation/widget/register/register_lastname_input.dart';
-import 'package:booko/presentation/widget/register/register_password_input.dart';
+import 'package:booko/presentation/bloc/auth/register/register_cubit.dart';
 import 'package:booko/resources/colors/theme_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:intl/intl.dart';
+
+part 'package:booko/presentation/widget/register/register_birthday_input.dart';
+part 'package:booko/presentation/widget/register/register_button.dart';
+part 'package:booko/presentation/widget/register/register_confirm_password_input.dart';
+part 'package:booko/presentation/widget/register/register_email_input.dart';
+part 'package:booko/presentation/widget/register/register_firstname_input.dart';
+part 'package:booko/presentation/widget/register/register_lastname_input.dart';
+part 'package:booko/presentation/widget/register/register_password_input.dart';
 
 class RegisterForm extends StatelessWidget {
   const RegisterForm({super.key});

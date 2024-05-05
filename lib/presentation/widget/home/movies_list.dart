@@ -68,7 +68,7 @@ class MovieList extends StatelessWidget {
         return (movies.isEmpty)
             ? ContentUnavailable(message: (isNowShowing) ? "No current movies" : "No upcoming movies")
             : GridView.builder(
-                itemCount: state.movies.length,
+                itemCount: movies.length,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

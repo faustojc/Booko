@@ -1,10 +1,4 @@
-import 'package:booko/domain/repository/home/movie_repo.dart';
-import 'package:booko/presentation/bloc/seat/seat_cubit.dart';
-import 'package:booko/resources/colors/theme_colors.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:intl/intl.dart';
+part of 'package:booko/presentation/pages/seat_page.dart';
 
 class DateInput extends HookWidget {
   const DateInput({super.key});

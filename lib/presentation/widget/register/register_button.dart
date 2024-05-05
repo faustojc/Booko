@@ -1,8 +1,4 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:booko/presentation/bloc/auth/register/register_cubit.dart';
-import 'package:booko/resources/colors/theme_colors.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+part of 'package:booko/presentation/widget/register/register_form.dart';
 
 class RegisterButton extends StatelessWidget {
   const RegisterButton({super.key});

@@ -101,7 +101,7 @@ mixin QueryBuilder<T> {
 
     final clause = _whereClauses.first;
 
-    if (clause['operator'] != '==') {
+    if (clause['isEqualTo'] == null) {
       throw Exception('Update operation only supports equality checks');
     }
 
@@ -120,13 +120,8 @@ mixin QueryBuilder<T> {
   /// Returns a [Future] that completes with the [DocumentReference] of the
   /// newly inserted document.
   Future<DocumentReference<Map<String, dynamic>>> insert(Map<String, dynamic> data) async {
-    if (data['created_at'] == null) {
-      data['created_at'] = Timestamp.now();
-    }
-
-    if (data['updated_at'] == null) {
-      data['updated_at'] = Timestamp.now();
-    }
+    data['created_at'] = Timestamp.now();
+    data['updated_at'] = Timestamp.now();
 
     return await _firestore.collection(this.collectionName).add(data);
   }
@@ -138,12 +133,10 @@ mixin QueryBuilder<T> {
   ///
   /// Returns a [Future] that completes when the delete operation is complete.
   Future<void> delete() async {
-    if (_whereClauses.isEmpty) {
-      throw Exception('Cannot delete without a where clause');
-    }
+    assert(_whereClauses.isNotEmpty, 'Cannot delete without a where clause');
 
     final clause = _whereClauses.first;
-    if (clause['operator'] != '==') {
+    if (clause['isEqualTo'] == null) {
       throw Exception('Delete operation only supports equality checks');
     }
 

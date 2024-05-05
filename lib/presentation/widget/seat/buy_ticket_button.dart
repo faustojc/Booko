@@ -1,8 +1,5 @@
-import 'package:booko/presentation/bloc/seat/seat_cubit.dart';
-import 'package:booko/resources/colors/theme_colors.dart';
-import 'package:booko/presentation/widget/seat/qr_code_generator.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+part of 'package:booko/presentation/pages/seat_page.dart';
+
 
 class BuyTicketButton extends StatelessWidget {
   const BuyTicketButton({super.key});
@@ -48,12 +45,7 @@ class BuyTicketButton extends StatelessWidget {
         }
 
         return ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                  builder: (context) => QrCodeGenerator(data: ['Pew'])),
-            );
-          },
+          onPressed: () => seatCubit.onBuyTicket(),
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(ThemeColor.primary),
             shape: MaterialStateProperty.all(const RoundedRectangleBorder(
