@@ -1,5 +1,6 @@
 part of 'package:booko/presentation/pages/seat_page.dart';
 
+
 class BuyTicketButton extends StatelessWidget {
   const BuyTicketButton({super.key});
 
@@ -23,18 +24,22 @@ class BuyTicketButton extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 12),
                 child: CircularProgressIndicator(color: ThemeColor.white),
               ));
-        } else if (seatCubit.seatRepo.selectedSchedule == null || seatCubit.seatRepo.selectedSeats.isEmpty) {
+        } else if (seatCubit.seatRepo.selectedSchedule == null ||
+            seatCubit.seatRepo.selectedSeats.isEmpty) {
           return ElevatedButton(
             onPressed: () {},
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(ThemeColor.primary.withOpacity(0.4)),
+              backgroundColor: MaterialStateProperty.all(
+                  ThemeColor.primary.withOpacity(0.4)),
               shape: MaterialStateProperty.all(const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(14)),
               )),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 12),
-              child: Text('Buy Ticket', style: TextStyle(color: Colors.white.withOpacity(0.4), fontSize: 20)),
+              child: Text('Buy Ticket',
+                  style: TextStyle(
+                      color: Colors.white.withOpacity(0.4), fontSize: 20)),
             ),
           );
         }
@@ -49,7 +54,8 @@ class BuyTicketButton extends StatelessWidget {
           ),
           child: const Padding(
             padding: EdgeInsets.symmetric(vertical: 12),
-            child: Text('Buy Ticket', style: TextStyle(color: Colors.white, fontSize: 20)),
+            child: Text('Buy Ticket',
+                style: TextStyle(color: Colors.white, fontSize: 20)),
           ),
         );
       },
