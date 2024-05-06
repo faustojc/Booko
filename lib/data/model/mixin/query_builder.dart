@@ -70,6 +70,9 @@ mixin QueryBuilder<T> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final List<Map<String, dynamic>> _whereClauses = [];
 
+  WriteBatch? _batch;
+  DocumentReference<Map<String, dynamic>>? _reference;
+
   String _orderBy = '';
   bool _descending = false;
   int _limit = 0;
@@ -206,6 +209,39 @@ mixin QueryBuilder<T> {
   QueryBuilder<T> endBefore(Iterable<Object> value) {
     _endBefore = value;
     return this;
+  }
+
+  QueryBuilder<T> startBatch() {
+    _batch = _firestore.batch();
+
+    return this;
+  }
+
+  QueryBuilder<T> batchSet(Map<String, dynamic> data) {
+    assert(_batch != null, 'Cannot batch set without starting a batch operation first');
+
+    _reference = _firestore.collection(this.collectionName).doc(data['id']);
+    _batch!.set(_reference!, data);
+
+    return this;
+  }
+
+  QueryBuilder<T> batchDelete(String id) {
+    assert(_batch != null, 'Cannot batch delete without starting a batch operation first');
+
+    _reference = _firestore.collection(this.collectionName).doc(id);
+    _batch!.delete(_reference!);
+
+    return this;
+  }
+
+  Future<void> endBatch() async {
+    assert(_batch != null, 'Cannot end batch without a batch operation first');
+    assert(_reference != null, 'Cannot end batch without set or delete a reference first');
+
+    await _batch!.commit();
+
+    _batch = null;
   }
 
   /// Retrieves a list of objects of type [T] from the Firestore collection.
