@@ -1,4 +1,4 @@
-part of 'package:booko/presentation/pages/seat_page.dart';
+part of 'package:booko/presentation/pages/user/seat_page.dart';
 
 class QuantityText extends StatelessWidget {
   const QuantityText({super.key});

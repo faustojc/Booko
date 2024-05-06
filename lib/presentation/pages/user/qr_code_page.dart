@@ -61,9 +61,10 @@ class QrCodePage extends StatelessWidget {
                   final seats = data[index].split('/');
 
                   final Map<String, dynamic> seatData = {
-                    'schedule': DateTime.parse(seats[0]),
-                    'seat': int.parse(seats[1]),
-                    'price': double.parse(seats[2]),
+                    'movie_title': seats[0],
+                    'schedule': DateTime.parse(seats[1]),
+                    'seat': int.parse(seats[2]),
+                    'price': double.parse(seats[3]),
                   };
 
                   if (index == data.length - 1) {
