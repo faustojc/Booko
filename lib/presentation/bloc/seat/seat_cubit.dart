@@ -31,6 +31,7 @@ class SeatCubit extends Cubit<SeatState> {
 
     /// Format:
     /// List<String> data = [
+    ///   title (from String),
     ///   schedule (from DateTime),
     ///   seats (from int),
     ///   price
@@ -39,6 +40,7 @@ class SeatCubit extends Cubit<SeatState> {
 
     for (String seat in seats) {
       data.add([
+        seatRepo.movie.title!,
         seatRepo.selectedSchedule!.toIso8601String(),
         seat,
         seatRepo.movie.price.toString(),
