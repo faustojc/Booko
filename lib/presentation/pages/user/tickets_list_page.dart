@@ -102,20 +102,23 @@ class TicketsListPage extends StatelessWidget {
                             ),
                             const SizedBox(width: 10),
                             Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  AutoSizeText(
-                                    ticket.movieTitle!,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text("Date: ${DateFormat.yMMMMd().format(ticket.schedule!)}"),
-                                  Text("Time: ${TimeOfDay.fromDateTime(ticket.schedule!).format(context)}"),
-                                ],
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 4),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    AutoSizeText(
+                                      ticket.movieTitle!,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Text("Date: ${DateFormat.yMMMMd().format(ticket.schedule!)}"),
+                                    Text("Time: ${TimeOfDay.fromDateTime(ticket.schedule!).format(context)}"),
+                                  ],
+                                ),
                               ),
                             ),
                           ]),

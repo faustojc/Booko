@@ -23,9 +23,9 @@ class UserRepo {
   Future<void> fetchTickets({bool refresh = false}) async {
     if (refresh) {
       tickets.clear();
-      tickets.addAll(await Ticket().where('user_id', isEqualTo: _authRepo.currentUser!.uid).get());
+      tickets.addAll(await Ticket().where('user_id', isEqualTo: _authRepo.currentUser!.uid).orderBy('created_at', descending: true).get());
     } else if (tickets.isEmpty) {
-      tickets.addAll(await Ticket().where('user_id', isEqualTo: _authRepo.currentUser!.uid).get());
+      tickets.addAll(await Ticket().where('user_id', isEqualTo: _authRepo.currentUser!.uid).orderBy('created_at', descending: true).get());
     }
   }
 
