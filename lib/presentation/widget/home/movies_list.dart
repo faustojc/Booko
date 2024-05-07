@@ -53,10 +53,10 @@ class MovieList extends StatelessWidget {
           );
         }
 
-        late List<Movie> movies = state.movies;
+        late List<Movie> movies = RepositoryProvider.of<MovieRepo>(context).movies.toList();
 
         if (movies.isNotEmpty) {
-          movies = state.movies.where((movie) {
+          movies = movies.where((movie) {
             if (isNowShowing) {
               return movie.schedules.every((schedule) => schedule.month == DateTime.now().month);
             } else {

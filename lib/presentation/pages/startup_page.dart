@@ -1,3 +1,4 @@
+import 'package:booko/domain/repository/auth/auth_repo.dart';
 import 'package:booko/domain/repository/user/user_repo.dart';
 import 'package:booko/domain/routes/route.dart';
 import 'package:booko/presentation/bloc/app/app_bloc.dart';
@@ -14,6 +15,7 @@ class StartupPage extends StatelessWidget {
     final startupBloc = StartupBloc(
       appBloc: BlocProvider.of<AppBloc>(context),
       userRepo: RepositoryProvider.of<UserRepo>(context),
+      authRepo: RepositoryProvider.of<AuthRepo>(context),
     );
 
     _precacheImages(context);

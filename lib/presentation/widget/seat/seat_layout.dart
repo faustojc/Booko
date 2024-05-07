@@ -30,7 +30,7 @@ class SeatLayout extends HookWidget {
                   if ((index % 8 == 3 || index % 8 == 4) || (index == 0 || index == 7) || (index / 8 >= 3 && index / 8 < 4)) {
                     return const SizedBox.shrink();
                   } else {
-                    final occupied = seatCubit.seatRepo.seats.where((seat) => seat.seatNumber! == index).isNotEmpty;
+                    final occupied = seatCubit.seatRepo.occupiedSeats.contains(index);
                     final selected = seatCubit.seatRepo.selectedSeats.contains(index);
 
                     if (occupied) {

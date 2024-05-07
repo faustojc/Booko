@@ -40,7 +40,7 @@ class BuyTicketButton extends StatelessWidget {
         }
 
         return ElevatedButton(
-          onPressed: () => seatCubit.onBuyTicket(),
+          onPressed: () => seatCubit.onConfirmSelection(),
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(ThemeColor.primary),
             shape: MaterialStateProperty.all(const RoundedRectangleBorder(
@@ -49,7 +49,7 @@ class BuyTicketButton extends StatelessWidget {
           ),
           child: const Padding(
             padding: EdgeInsets.symmetric(vertical: 12),
-            child: Text('Buy Ticket', style: TextStyle(color: Colors.white, fontSize: 20)),
+            child: Text('Buy Ticket', style: TextStyle(color: Colors.black, fontSize: 20)),
           ),
         );
       },

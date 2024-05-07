@@ -43,7 +43,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(LoginLoading());
         try {
           await authRepo.login(email, password);
-          await userRepo.fetchData();
+          await userRepo.fetchData(id: authRepo.currentUser!.uid);
           emit(LoginSuccess());
         } on LoginException catch (e) {
           emit(LoginFailure(e.message));

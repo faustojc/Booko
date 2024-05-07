@@ -10,10 +10,10 @@ class HomeView extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    useEffect(() {
+    /*useEffect(() {
       context.read<MoviesBloc>().add(MoviesFetchInitialData());
       return null;
-    }, const []);
+    }, const []);*/
 
     return RefreshIndicator(
       onRefresh: () async {

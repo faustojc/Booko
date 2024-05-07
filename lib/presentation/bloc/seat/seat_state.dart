@@ -17,8 +17,10 @@ final class SeatError extends SeatState {
 
 final class SeatInputChanged extends SeatState {}
 
+final class SeatConfirmSelection extends SeatState {}
+
 final class SeatTicketBought extends SeatState {
-  final List<String> data;
+  final Set<Ticket> data;
 
   SeatTicketBought({required this.data});
 }

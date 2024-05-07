@@ -1,3 +1,4 @@
+import 'package:booko/data/model/ticket.dart';
 import 'package:booko/presentation/pages/login_page.dart';
 import 'package:booko/presentation/pages/register_page.dart';
 import 'package:booko/presentation/pages/user/home_page.dart';
@@ -21,7 +22,7 @@ class Routes {
 
   static MaterialPageRoute seat() => MaterialPageRoute(builder: (_) => const SeatPage());
 
-  static MaterialPageRoute qrCode({required List<String> data}) => MaterialPageRoute(builder: (_) => QrCodePage(data: data));
+  static MaterialPageRoute qrCode({required Set<Ticket> tickets}) => MaterialPageRoute(builder: (_) => QrCodePage(tickets: tickets));
 
   static MaterialPageRoute settings() => MaterialPageRoute(builder: (_) => const SettingsPage());
 

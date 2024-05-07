@@ -18,12 +18,16 @@ class HomePage extends StatelessWidget {
     final initials = name!.substring(0, 1).toUpperCase() + userRepo.customer.lastname!.substring(0, 1).toUpperCase();
 
     return BlocProvider<MoviesBloc>(
-      create: (_) => MoviesBloc(RepositoryProvider.of<MovieRepo>(context)),
+      create: (_) => MoviesBloc(RepositoryProvider.of<MovieRepo>(context))..add(MoviesFetchInitialData()),
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(top: 20),
           child: BlocListener<MoviesBloc, MoviesState>(
             listener: (context, state) {
+              if (state is MoviesInitial) {
+                context.read<MoviesBloc>().add(MoviesFetchInitialData());
+              }
+
               if (state is MoviesError) {
                 toastification.show(
                   context: context,

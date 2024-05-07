@@ -8,14 +8,23 @@ class UserRepo {
 
   late Customer customer = Customer();
 
-  final List<Ticket> tickets = [];
+  final Set<Ticket> tickets = {};
 
   UserRepo({required AuthRepo authRepo}) : _authRepo = authRepo;
 
-  Future<void> fetchData() async {
-    customer = (await Customer().where('user_id', isEqualTo: _authRepo.currentUser!.uid).get()).first;
+  Future<void> fetchData({required String id}) async {
+    customer = (await Customer().where('user_id', isEqualTo: id).get()).first;
 
     if (tickets.isEmpty) {
+      tickets.addAll(await Ticket().where('user_id', isEqualTo: id).get());
+    }
+  }
+
+  Future<void> fetchTickets({bool refresh = false}) async {
+    if (refresh) {
+      tickets.clear();
+      tickets.addAll(await Ticket().where('user_id', isEqualTo: _authRepo.currentUser!.uid).get());
+    } else if (tickets.isEmpty) {
       tickets.addAll(await Ticket().where('user_id', isEqualTo: _authRepo.currentUser!.uid).get());
     }
   }

@@ -1,3 +1,5 @@
+import 'package:booko/data/model/ticket.dart';
+import 'package:booko/domain/repository/auth/auth_repo.dart';
 import 'package:booko/domain/repository/seat/seat_repo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,8 +8,9 @@ part 'seat_state.dart';
 
 class SeatCubit extends Cubit<SeatState> {
   final SeatRepo seatRepo;
+  final AuthRepo authRepo;
 
-  SeatCubit(this.seatRepo) : super(SeatInitial());
+  SeatCubit({required this.seatRepo, required this.authRepo}) : super(SeatInitial());
 
   Future<void> onFetchData() async {
     emit(SeatLoading());
@@ -26,27 +29,19 @@ class SeatCubit extends Cubit<SeatState> {
     seatRepo.setInputData(schedule: schedule, seatNumber: seatNumber);
   }
 
-  void onBuyTicket() {
-    Set<String> seats = seatRepo.selectedSeats.map((e) => e.toString()).toSet();
+  void onConfirmSelection() {
+    emit(SeatConfirmSelection());
+  }
 
-    /// Format:
-    /// List<String> data = [
-    ///   title (from String),
-    ///   schedule (from DateTime),
-    ///   seats (from int),
-    ///   price
-    /// ]
-    List<String> data = [];
+  Future<void> onBuyTicket() async {
+    emit(SeatLoading());
 
-    for (String seat in seats) {
-      data.add([
-        seatRepo.movie.title!,
-        seatRepo.selectedSchedule!.toIso8601String(),
-        seat,
-        seatRepo.movie.price.toString(),
-      ].join('/'));
+    try {
+      await seatRepo.buyTicket(authRepo.currentUser!);
+
+      emit(SeatTicketBought(data: seatRepo.boughtTickets));
+    } catch (err) {
+      emit(SeatError(err.toString()));
     }
-
-    emit(SeatTicketBought(data: data));
   }
 }

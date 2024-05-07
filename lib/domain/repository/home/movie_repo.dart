@@ -2,7 +2,7 @@ import 'package:booko/data/model/movie.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class MovieRepo {
-  final List<Movie> movies = [];
+  final Set<Movie> movies = {};
   late Movie currentMovie = Movie();
 
   final _storage = FirebaseStorage.instance;
@@ -48,6 +48,6 @@ class MovieRepo {
       movie.posterUrl = await _storage.ref().child(movie.posterUrl!).getDownloadURL();
     }
 
-    movies.replaceRange(0, movies.length, data);
+    movies.addAll(data);
   }
 }

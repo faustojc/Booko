@@ -1,10 +1,10 @@
 part of 'movies_bloc.dart';
 
 sealed class MoviesState with FastEquatable {
-  late List<Movie> movies = [];
+  late Set<Movie> movies = {};
   late bool isFirstFetch = true;
 
-  MoviesState({this.movies = const [], this.isFirstFetch = false});
+  MoviesState({this.movies = const {}, this.isFirstFetch = false});
 
   @override
   bool get cacheHash => true;
@@ -30,7 +30,7 @@ final class MoviesLoading extends MoviesState {
   @override
   bool get cacheHash => false;
 
-  MoviesLoading({List<Movie>? movies, bool? isFirstFetch}) : super(movies: movies ?? [], isFirstFetch: isFirstFetch ?? true);
+  MoviesLoading({Set<Movie>? movies, bool? isFirstFetch}) : super(movies: movies ?? {}, isFirstFetch: isFirstFetch ?? true);
 
   @override
   List<Object?> get hashParameters {

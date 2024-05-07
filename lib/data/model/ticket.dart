@@ -22,6 +22,7 @@ import 'package:fast_equatable/fast_equatable.dart';
 ///   movieId: '789',
 ///   seatId: '101112',
 ///   ticketNumber: 'ABC123',
+///   expired: false,
 ///   movieTitle: 'Movie Title',
 ///   schedule: Timestamp.fromDate(DateTime.now()),
 ///   createdAt: DateTime.now(),
@@ -35,9 +36,11 @@ class Ticket with QueryBuilder<Ticket>, FastEquatable {
   String? id;
   String? userId;
   String? movieId;
-  String? seatId;
+  int? seatNumber;
   String? ticketNumber;
   String? movieTitle;
+  bool? expired;
+  num? price;
   DateTime? schedule;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -46,9 +49,11 @@ class Ticket with QueryBuilder<Ticket>, FastEquatable {
     this.id,
     this.userId,
     this.movieId,
-    this.seatId,
+    this.seatNumber,
     this.ticketNumber,
     this.movieTitle,
+    this.expired = false,
+    this.price = 0.0,
     this.schedule,
     this.createdAt,
     this.updatedAt,
@@ -71,9 +76,11 @@ class Ticket with QueryBuilder<Ticket>, FastEquatable {
       id: json['id'],
       userId: json['user_id'],
       movieId: json['movie_id'],
-      seatId: json['seat_id'],
+      seatNumber: json['seat_number'],
       ticketNumber: json['ticket_number'],
       movieTitle: json['movie_title'],
+      expired: json['expired'],
+      price: json['price'],
       schedule: json['schedule'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
@@ -94,6 +101,8 @@ class Ticket with QueryBuilder<Ticket>, FastEquatable {
   ///   seatId: '101112',
   ///   ticketNumber: 'ABC123',
   ///   movieTitle: 'Movie Title',
+  ///   expired: false,
+  ///   price: 10.0,
   ///   schedule: Timestamp.fromDate(DateTime.now()),
   ///   createdAt: DateTime.now(),
   ///   updatedAt: DateTime.now(),
@@ -105,9 +114,11 @@ class Ticket with QueryBuilder<Ticket>, FastEquatable {
       'id': id,
       'user_id': userId,
       'movie_id': movieId,
-      'seat_id': seatId,
+      'seat_number': seatNumber,
       'ticket_number': ticketNumber,
       'movie_title': movieTitle,
+      'expired': expired,
+      'price': price,
       'schedule': Timestamp.fromDate(schedule!),
       'created_at': Timestamp.fromDate(createdAt!),
       'updated_at': Timestamp.fromDate(updatedAt!),
@@ -130,8 +141,10 @@ class Ticket with QueryBuilder<Ticket>, FastEquatable {
         id,
         userId,
         movieId,
-        seatId,
+        seatNumber,
         ticketNumber,
+        expired,
+        price,
         schedule,
         createdAt,
         updatedAt,
