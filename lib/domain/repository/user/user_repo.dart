@@ -35,16 +35,9 @@ class UserRepo {
       'firstname': firstname,
       'lastname': lastname,
       'birthday': Timestamp.fromDate(birthday),
-      'created_at': Timestamp.now(),
-      'updated_at': Timestamp.now(),
     };
 
-    final data = await Customer().insert({
-      'user_id': json['user_id'],
-      'firstname': json['firstname'],
-      'lastname': json['lastname'],
-      'birthday': json['birthday'],
-    });
+    final data = await Customer().insert(json);
 
     json.addAll({'id': data.id});
 
