@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:booko/data/model/movie.dart';
 import 'package:booko/domain/repository/home/movie_repo.dart';
 import 'package:booko/domain/routes/route.dart';
-import 'package:booko/presentation/bloc/home/movies_bloc.dart';
+import 'package:booko/presentation/bloc/movie/movies_bloc.dart';
 import 'package:booko/presentation/widget/shared/content_unavailable.dart';
 import 'package:booko/resources/colors/theme_colors.dart';
 import 'package:fast_cached_network_image/fast_cached_network_image.dart';
@@ -18,28 +18,21 @@ class MovieList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MoviesBloc, MoviesState>(
-      buildWhen: (previous, current) => previous != current,
       builder: (context, state) {
         if (state is MoviesLoading && state.isFirstFetch) {
-          return GridView(
+          return ListView(
             shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
-              mainAxisExtent: 360,
-            ),
+            physics: const ClampingScrollPhysics(),
             children: List.generate(
               2,
               (index) => Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   ShimmerPro.sized(
                     light: ShimmerProLight.darker,
                     scaffoldBackgroundColor: ThemeColor.surface,
                     height: 250,
-                    width: double.infinity,
+                    width: 320,
                   ),
                   ShimmerPro.text(
                     light: ShimmerProLight.darker,
@@ -53,7 +46,7 @@ class MovieList extends StatelessWidget {
           );
         }
 
-        late List<Movie> movies = RepositoryProvider.of<MovieRepo>(context).movies.toList();
+        late Set<Movie> movies = RepositoryProvider.of<MovieRepo>(context).movies;
 
         if (movies.isNotEmpty) {
           movies = movies.where((movie) {
@@ -62,7 +55,7 @@ class MovieList extends StatelessWidget {
             } else {
               return movie.schedules.every((schedule) => schedule.month > DateTime.now().month && schedule.day > DateTime.now().day);
             }
-          }).toList();
+          }).toSet();
         }
 
         return (movies.isEmpty)
@@ -70,73 +63,73 @@ class MovieList extends StatelessWidget {
                 message: (isNowShowing) ? "No current movies" : "No upcoming movies",
                 imagePath: "assets/images/content/no-movies.png",
               )
-            : GridView.builder(
-                itemCount: movies.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisExtent: 350,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                ),
-                itemBuilder: (context, index) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          RepositoryProvider.of<MovieRepo>(context).currentMovie = movies[index];
-                          Navigator.push(context, Routes.movie());
-                        },
-                        child: SizedBox(
-                          height: 260,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(14),
-                            child: FastCachedImage(
-                              url: movies[index].posterUrl!,
-                              fit: BoxFit.cover,
-                              loadingBuilder: (context, progressData) {
-                                return ShimmerPro.sized(
-                                  light: ShimmerProLight.darker,
-                                  scaffoldBackgroundColor: ThemeColor.surface,
-                                  height: 280,
-                                  width: double.infinity,
-                                );
-                              },
+            : SizedBox(
+                height: 350,
+                child: ListView.separated(
+                  itemCount: movies.length,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  physics: const ClampingScrollPhysics(),
+                  separatorBuilder: (context, index) => const SizedBox(width: 15),
+                  itemBuilder: (context, index) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            RepositoryProvider.of<MovieRepo>(context).currentMovie = movies.elementAt(index);
+                            Navigator.push(context, Routes.movie());
+                          },
+                          child: SizedBox(
+                            height: 260,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(14),
+                              child: FastCachedImage(
+                                url: movies.elementAt(index).posterUrl!,
+                                fit: BoxFit.cover,
+                                loadingBuilder: (context, progressData) {
+                                  return ShimmerPro.sized(
+                                    light: ShimmerProLight.darker,
+                                    scaffoldBackgroundColor: ThemeColor.surface,
+                                    height: 280,
+                                    width: null,
+                                  );
+                                },
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                      Flexible(
-                        flex: 0,
-                        fit: FlexFit.tight,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            AutoSizeText(
-                              movies[index].title!,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
+                        const SizedBox(height: 10),
+                        Container(
+                          constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width * 0.39,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              AutoSizeText(
+                                movies.elementAt(index).title!,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 5),
-                            Text(
-                              movies[index].genres.join(' / '),
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(fontSize: 12, color: ThemeColor.surfaceVariant),
-                            ),
-                          ],
+                              const SizedBox(height: 5),
+                              Text(
+                                movies.elementAt(index).genres.join(' / '),
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(fontSize: 12, color: ThemeColor.surfaceVariant),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  );
-                },
+                      ],
+                    );
+                  },
+                ),
               );
       },
     );

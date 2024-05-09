@@ -1,7 +1,7 @@
 import 'package:booko/domain/repository/home/movie_repo.dart';
 import 'package:booko/domain/repository/user/user_repo.dart';
 import 'package:booko/domain/routes/route.dart';
-import 'package:booko/presentation/bloc/home/movies_bloc.dart';
+import 'package:booko/presentation/bloc/movie/movies_bloc.dart';
 import 'package:booko/presentation/widget/home/home_view.dart';
 import 'package:booko/resources/colors/theme_colors.dart';
 import 'package:flutter/material.dart';

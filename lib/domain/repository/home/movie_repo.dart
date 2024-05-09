@@ -42,12 +42,13 @@ class MovieRepo {
   }
 
   Future<void> fetchLatestData() async {
-    final data = await Movie().orderBy('updated_at', descending: true).limit(6).get();
+    final data = await Movie().orderBy('created_at', descending: true).limit(6).get();
 
     for (final movie in data) {
       movie.posterUrl = await _storage.ref().child(movie.posterUrl!).getDownloadURL();
     }
 
+    movies.clear();
     movies.addAll(data);
   }
 }
