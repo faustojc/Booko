@@ -20,27 +20,37 @@ class MovieList extends StatelessWidget {
     return BlocBuilder<MoviesBloc, MoviesState>(
       builder: (context, state) {
         if (state is MoviesLoading && state.isFirstFetch) {
-          return ListView(
-            shrinkWrap: true,
-            physics: const ClampingScrollPhysics(),
-            children: List.generate(
-              2,
-              (index) => Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ShimmerPro.sized(
-                    light: ShimmerProLight.darker,
-                    scaffoldBackgroundColor: ThemeColor.surface,
-                    height: 250,
-                    width: 320,
-                  ),
-                  ShimmerPro.text(
-                    light: ShimmerProLight.darker,
-                    scaffoldBackgroundColor: ThemeColor.surface,
-                    alignment: Alignment.centerLeft,
-                    maxLine: 3,
-                  ),
-                ],
+          return SizedBox(
+            height: 350,
+            child: ListView(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              physics: const ClampingScrollPhysics(),
+              children: List.generate(
+                2,
+                (index) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ShimmerPro.sized(
+                      light: ShimmerProLight.darker,
+                      scaffoldBackgroundColor: ThemeColor.surface,
+                      height: 240,
+                      width: MediaQuery.of(context).size.width * 0.39,
+                    ),
+                    Container(
+                      constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width * 0.44,
+                      ),
+                      child: ShimmerPro.text(
+                        light: ShimmerProLight.darker,
+                        scaffoldBackgroundColor: ThemeColor.surface,
+                        alignment: Alignment.centerLeft,
+                        maxLine: 3,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );
@@ -82,6 +92,7 @@ class MovieList extends StatelessWidget {
                           },
                           child: SizedBox(
                             height: 260,
+                            width: MediaQuery.of(context).size.width * 0.40,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(14),
                               child: FastCachedImage(
@@ -102,7 +113,7 @@ class MovieList extends StatelessWidget {
                         const SizedBox(height: 10),
                         Container(
                           constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width * 0.39,
+                            maxWidth: MediaQuery.of(context).size.width * 0.40,
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,

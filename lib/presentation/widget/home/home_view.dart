@@ -31,6 +31,7 @@ class HomeView extends StatelessWidget {
                     tag: "movies_search_bar",
                     child: TextField(
                       readOnly: true,
+                      onTap: () {},
                       decoration: InputDecoration(
                         hintText: "Search movies",
                         hintStyle: const TextStyle(color: ThemeColor.surfaceVariant),

@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:booko/domain/repository/auth/auth_repo.dart';
 import 'package:booko/domain/repository/home/movie_repo.dart';
 import 'package:booko/domain/repository/seat/seat_repo.dart';
+import 'package:booko/domain/repository/user/user_repo.dart';
 import 'package:booko/domain/routes/route.dart';
 import 'package:booko/presentation/bloc/seat/seat_cubit.dart';
 import 'package:booko/resources/colors/theme_colors.dart';
@@ -39,6 +40,7 @@ class SeatPage extends StatelessWidget {
           create: (context) => SeatCubit(
             seatRepo: RepositoryProvider.of<SeatRepo>(context),
             authRepo: RepositoryProvider.of<AuthRepo>(context),
+            userRepo: RepositoryProvider.of<UserRepo>(context),
           ),
           child: Scaffold(
             appBar: AppBar(
