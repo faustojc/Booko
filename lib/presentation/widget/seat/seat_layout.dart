@@ -37,7 +37,7 @@ class SeatLayout extends HookWidget {
                       return Container(
                           width: 55,
                           decoration: BoxDecoration(
-                            color: occupied ? Colors.white : Colors.transparent,
+                            color: occupied ? Colors.grey : Colors.transparent,
                             borderRadius: BorderRadius.circular(6),
                           ));
                     }

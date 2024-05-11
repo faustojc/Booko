@@ -24,15 +24,9 @@ class MoviePage extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          leading: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              border: Border.all(color: ThemeColor.surfaceVariant, width: 2),
-            ),
-            child: IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: const Icon(Icons.arrow_back_ios_new, color: ThemeColor.surfaceVariant),
-            ),
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Icons.arrow_back_ios_new, color: ThemeColor.surfaceVariant),
           ),
         ),
         body: Padding(
@@ -44,12 +38,9 @@ class MoviePage extends StatelessWidget {
                 children: [
                   SizedBox(
                     height: 400,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: FastCachedImage(
-                        url: movie.posterUrl!,
-                        fit: BoxFit.contain,
-                      ),
+                    child: FastCachedImage(
+                      url: movie.posterUrl!,
+                      fit: BoxFit.contain,
                     ),
                   ),
                   const SizedBox(height: 30),
@@ -96,19 +87,20 @@ class MoviePage extends StatelessWidget {
                           moreStyle: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
                         ),
                         const SizedBox(height: 20),
-                        ElevatedButton(
-                          onPressed: () => Navigator.push(context, Routes.seat()),
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(ThemeColor.secondary),
-                            shape: MaterialStateProperty.all(const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(14)),
-                            )),
+                        if (movie.schedules.every((schedule) => schedule.month == DateTime.now().month && schedule.year == DateTime.now().year))
+                          ElevatedButton(
+                            onPressed: () => Navigator.push(context, Routes.seat()),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(ThemeColor.secondary),
+                              shape: MaterialStateProperty.all(const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(14)),
+                              )),
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 12),
+                              child: AutoSizeText('Select Seats', style: TextStyle(color: Colors.white, fontSize: 16)),
+                            ),
                           ),
-                          child: const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 12),
-                            child: AutoSizeText('Select Seats', style: TextStyle(color: Colors.white, fontSize: 16)),
-                          ),
-                        ),
                         const SizedBox(height: 20),
                       ],
                     ),

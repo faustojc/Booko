@@ -1,3 +1,4 @@
+import 'package:booko/domain/routes/route.dart';
 import 'package:booko/presentation/bloc/movie/movies_bloc.dart';
 import 'package:booko/presentation/widget/home/movies_list.dart';
 import 'package:booko/resources/colors/theme_colors.dart';
@@ -29,18 +30,21 @@ class HomeView extends StatelessWidget {
                   const SizedBox(height: 20),
                   Hero(
                     tag: "movies_search_bar",
-                    child: TextField(
-                      readOnly: true,
-                      onTap: () {},
-                      decoration: InputDecoration(
-                        hintText: "Search movies",
-                        hintStyle: const TextStyle(color: ThemeColor.surfaceVariant),
-                        prefixIcon: const Icon(Icons.search, color: ThemeColor.surfaceVariant),
-                        filled: true,
-                        fillColor: ThemeColor.surface,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none,
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: TextField(
+                        readOnly: true,
+                        onTap: () => Navigator.push(context, Routes.search()),
+                        decoration: InputDecoration(
+                          hintText: "Search movies",
+                          hintStyle: const TextStyle(color: ThemeColor.surfaceVariant),
+                          prefixIcon: const Icon(Icons.search, color: ThemeColor.surfaceVariant),
+                          filled: true,
+                          fillColor: ThemeColor.surface,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
+                          ),
                         ),
                       ),
                     ),

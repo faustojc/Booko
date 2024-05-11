@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:booko/data/model/movie.dart';
 import 'package:booko/domain/repository/home/movie_repo.dart';
 import 'package:booko/domain/routes/route.dart';
@@ -61,9 +60,9 @@ class MovieList extends StatelessWidget {
         if (movies.isNotEmpty) {
           movies = movies.where((movie) {
             if (isNowShowing) {
-              return movie.schedules.every((schedule) => schedule.month == DateTime.now().month);
+              return movie.schedules.every((schedule) => schedule.month == DateTime.now().month && schedule.year == DateTime.now().year);
             } else {
-              return movie.schedules.every((schedule) => schedule.month > DateTime.now().month && schedule.day > DateTime.now().day);
+              return movie.schedules.every((schedule) => schedule.month > DateTime.now().month && schedule.year >= DateTime.now().year);
             }
           }).toSet();
         }
@@ -111,30 +110,38 @@ class MovieList extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Container(
-                          constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width * 0.40,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              AutoSizeText(
-                                movies.elementAt(index).title!,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
+                        Expanded(
+                          child: Container(
+                            constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width * 0.40,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  movies.elementAt(index).title!,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 5),
-                              Text(
-                                movies.elementAt(index).genres.join(' / '),
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(fontSize: 12, color: ThemeColor.surfaceVariant),
-                              ),
-                            ],
+                                Text(
+                                  movies.elementAt(index).genres.join(' / '),
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(fontSize: 12, color: ThemeColor.surfaceVariant),
+                                ),
+                                (isNowShowing)
+                                    ? Text(
+                                        '₱ ${movies.elementAt(index).price!.toStringAsFixed(2)}',
+                                        style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                                      )
+                                    : const SizedBox.shrink(),
+                              ],
+                            ),
                           ),
                         ),
                       ],

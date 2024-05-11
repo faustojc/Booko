@@ -17,7 +17,6 @@ import 'package:toastification/toastification.dart';
 part 'package:booko/presentation/widget/seat/buy_ticket_button.dart';
 part 'package:booko/presentation/widget/seat/date_input.dart';
 part 'package:booko/presentation/widget/seat/location_text.dart';
-part 'package:booko/presentation/widget/seat/quantity_text.dart';
 part 'package:booko/presentation/widget/seat/seat_layout.dart';
 part 'package:booko/presentation/widget/seat/total_price_text.dart';
 
@@ -45,15 +44,9 @@ class SeatPage extends StatelessWidget {
           child: Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.transparent,
-              leading: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  border: Border.all(color: ThemeColor.surfaceVariant, width: 2),
-                ),
-                child: IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: const Icon(Icons.arrow_back_ios_new, color: ThemeColor.surfaceVariant),
-                ),
+              leading: IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(Icons.arrow_back_ios_new, color: ThemeColor.surfaceVariant),
               ),
               title: AutoSizeText(
                 movie.title!,
@@ -167,7 +160,7 @@ class SeatPage extends StatelessWidget {
                           Column(children: [
                             Icon(Icons.crop_square_rounded, color: ThemeColor.surfaceVariant, size: 40),
                             SizedBox(height: 10),
-                            Text('Empty', style: TextStyle(color: ThemeColor.surfaceVariant, fontSize: 12)),
+                            Text('Available', style: TextStyle(color: ThemeColor.surfaceVariant, fontSize: 12)),
                           ]),
                           Column(children: [
                             Icon(Icons.square_rounded, color: ThemeColor.primary, size: 40),
@@ -175,9 +168,9 @@ class SeatPage extends StatelessWidget {
                             Text('Selected', style: TextStyle(color: ThemeColor.primary, fontSize: 12)),
                           ]),
                           Column(children: [
-                            Icon(Icons.square_rounded, color: Colors.white, size: 40),
+                            Icon(Icons.square_rounded, color: Colors.grey, size: 40),
                             SizedBox(height: 10),
-                            Text('Occupied', style: TextStyle(color: Colors.white, fontSize: 12)),
+                            Text('Occupied', style: TextStyle(color: Colors.grey, fontSize: 12)),
                           ]),
                         ],
                       ),
@@ -189,18 +182,30 @@ class SeatPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     const Text(
-                      'Press the seat to select it',
+                      'Press the available seat to reserve',
                       textAlign: TextAlign.center,
                       style: TextStyle(color: ThemeColor.surfaceVariant, fontSize: 14, fontStyle: FontStyle.italic),
                     ),
                     const SizedBox(height: 30),
                     const SeatLayout(),
                     const SizedBox(height: 30),
-                    const QuantityText(),
-                    const SizedBox(height: 10),
-                    const TotalPriceText(),
-                    const SizedBox(height: 30),
-                    const BuyTicketButton(),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Total Price',
+                              style: TextStyle(color: ThemeColor.surfaceVariant, fontSize: 14, fontWeight: FontWeight.w400),
+                            ),
+                            SizedBox(height: 4),
+                            TotalPriceText(),
+                          ],
+                        ),
+                        BuyTicketButton(),
+                      ],
+                    )
                   ],
                 ),
               ),
