@@ -4,6 +4,7 @@ import 'package:booko/presentation/pages/register_page.dart';
 import 'package:booko/presentation/pages/user/home_page.dart';
 import 'package:booko/presentation/pages/user/movie_page.dart';
 import 'package:booko/presentation/pages/user/qr_code_page.dart';
+import 'package:booko/presentation/pages/user/search_page.dart';
 import 'package:booko/presentation/pages/user/seat_page.dart';
 import 'package:booko/presentation/pages/user/settings_page.dart';
 import 'package:booko/presentation/pages/user/tickets_list_page.dart';
@@ -27,4 +28,6 @@ class Routes {
   static MaterialPageRoute settings() => MaterialPageRoute(builder: (_) => const SettingsPage());
 
   static MaterialPageRoute ticketList() => MaterialPageRoute(builder: (_) => const TicketsListPage());
+
+  static MaterialPageRoute search() => MaterialPageRoute(builder: (_) => const SearchPage());
 }

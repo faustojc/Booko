@@ -17,7 +17,7 @@ class SeatLayout extends HookWidget {
         return Stack(
           children: [
             SizedBox(
-              height: 380,
+              height: 400,
               child: GridView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: 64,
